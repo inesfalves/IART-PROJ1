@@ -47,7 +47,7 @@ int Board::touchBubble(int x, int y){
     if(this->board[y][x] == 1){
         this->burstBubble(x,y);
     }
-    else if(this->board[y][x] != 0){
+    else if(this->board[y][x] > 1){
         this->board[y][x]--;  
     }
     return 0;
@@ -73,7 +73,6 @@ void Board::stepTinyBubbles(){
 void Board::moveTinyBubbles(){
     while(this->tiny_bubbles.size() != 0){
         this->stepTinyBubbles();
-        this->display();
     }
 }
 

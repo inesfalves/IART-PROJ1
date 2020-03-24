@@ -11,19 +11,40 @@ int main()
 { 
     Board board;
     
-    int content[6][5] = {{0,4,3,2,2}, {1,2,2,2,1}, {1,2,2,2,2}, {0,3,1,1,3}, {3,2,0,2,0}, {2,4,2,2,0}};
+    int level17[6][5] = {{0,4,3,2,2}, {1,2,2,2,1}, {1,2,2,2,2}, {0,3,1,1,3}, {3,2,0,2,0}, {2,4,2,2,0}};
 
-    board = Board(content);
+    int level3[6][5] = {{0,0,0,0,0}, {2,2,2,2,2}, {2,1,1,1,2}, {2,1,1,1,2}, {2,2,2,2,2}, {0,0,0,0,0}};
+
+    int level8[6][5] = {{1,2,2,2,1}, {2,4,3,4,2}, {2,2,2,2,2}, {2,2,2,2,2}, {1,2,2,2,1}, {1,2,1,2,1}};
+
+    int levelx[6][5] = {{0,0,1,0,0}, {0,0,0,0,0}, {0,0,0,0,0}, {0,0,0,0,0}, {0,0,0,0,0}, {0,0,1,0,0}};
+
+    //int level3[6][5] = {{}, {}, {}, {}, {}, {}};
+
+    board = Board(levelx);
+
+    /*
+        LEVEL 8
+    board.display();
+
+    board.playerTouch(1,3);
 
     board.display();
 
-    board.playerTouch(3,4);
+    board.playerTouch(2,3);
 
     board.display();
 
-    board.playerTouch(3,3);
+    board.playerTouch(2,3);
+
+    board.display();*/
 
     board.display();
+
+    board.playerTouch(2,0);
+
+    board.display();
+
 
     /*
     // Create a graph given in the above diagram 
