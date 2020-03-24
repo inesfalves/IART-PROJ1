@@ -22,3 +22,7 @@ void TinyBubble::move(){
         this->x_position++;
     }
 }
+
+void TinyBubble::display(){
+    cout << "(" << this->direction << "," << this->x_position << "," << this->y_position << ") ";
+}

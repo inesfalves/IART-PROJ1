@@ -21,30 +21,21 @@ int main()
 
     //int level3[6][5] = {{}, {}, {}, {}, {}, {}};
 
-    board = Board(levelx);
+    board = Board(level8);
 
-    /*
-        LEVEL 8
+    board.display();
+
+    board.playerTouch(2,3);
+
+    board.display();
+
+    board.playerTouch(2,3);
+
     board.display();
 
     board.playerTouch(1,3);
 
     board.display();
-
-    board.playerTouch(2,3);
-
-    board.display();
-
-    board.playerTouch(2,3);
-
-    board.display();*/
-
-    board.display();
-
-    board.playerTouch(2,0);
-
-    board.display();
-
 
     /*
     // Create a graph given in the above diagram 

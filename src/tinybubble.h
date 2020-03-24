@@ -10,8 +10,9 @@ class TinyBubble {
     public:
         char direction;
         int x_position, y_position;
-        void move();
         TinyBubble(char direction, int x_position, int y_position);
+        void move();
+        void display();
 };
 
 #endif

@@ -26,10 +26,10 @@ void Board::display(){
 
 void Board::burstBubble(int x, int y){
     
-    TinyBubble tiny_bubble1 = TinyBubble('U',x,y);
-    TinyBubble tiny_bubble2 = TinyBubble('D',x,y);
-    TinyBubble tiny_bubble3 = TinyBubble('L',x,y);
-    TinyBubble tiny_bubble4 = TinyBubble('R',x,y);
+    TinyBubble tiny_bubble1 = TinyBubble('L',x,y);
+    TinyBubble tiny_bubble2 = TinyBubble('R',x,y);
+    TinyBubble tiny_bubble3 = TinyBubble('U',x,y);
+    TinyBubble tiny_bubble4 = TinyBubble('D',x,y);
 
     this->tiny_bubbles.push_back(tiny_bubble1);
     this->tiny_bubbles.push_back(tiny_bubble2);
@@ -56,27 +56,35 @@ int Board::touchBubble(int x, int y){
 
 void Board::stepTinyBubbles(){
     for(size_t i = 0; i < this->tiny_bubbles.size(); i++){
+        this->tiny_bubbles.at(i).display();
+        if(i%4 == 0)
+            cout<<endl;
+    }
+    cout<<endl;
+    for(size_t i = 0; i < this->tiny_bubbles.size(); i++){
         this->tiny_bubbles.at(i).move();
         TinyBubble tiny = this->tiny_bubbles.at(i);
         if(tiny.x_position < 0 || tiny.y_position < 0 || tiny.x_position >= 5 || tiny.y_position >= 6){
             tiny_bubbles.erase(tiny_bubbles.begin() + i);
             i--;
         }
-        else if(this->board[tiny.y_position][tiny.x_position] != 0){
+        else if(this->board[tiny.y_position][tiny.x_position] > 0){
             this->touchBubble(tiny.x_position, tiny.y_position);
             tiny_bubbles.erase(tiny_bubbles.begin() + i);
             i--;
         }
     }
+    this->display();
 }
 
 void Board::moveTinyBubbles(){
-    while(this->tiny_bubbles.size() != 0){
+    while(this->tiny_bubbles.size() > 0){
         this->stepTinyBubbles();
     }
 }
 
 void Board::playerTouch(int x, int y){
+    this->tiny_bubbles.clear();
     this->touchBubble(x,y);
     this->moveTinyBubbles();
 }
