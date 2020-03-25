@@ -25,17 +25,18 @@ int main()
 
     board.display();
 
-    board.playerTouch(2,3);
-
-    board.display();
+    cout << "MOVE 1 ----------------------"<<endl;
 
     board.playerTouch(2,3);
 
-    board.display();
+    cout << "MOVE 2 ----------------------"<<endl;
+
+    board.playerTouch(2,3);
+
+    cout << "MOVE 3 ----------------------"<<endl;
 
     board.playerTouch(1,3);
 
-    board.display();
 
     /*
     // Create a graph given in the above diagram 
