@@ -15,12 +15,14 @@ class Board {
         Board();
         Board(vector<vector<int>>);
         vector<TinyBubble> tiny_bubbles;
+        vector<TinyBubble> bursting_bubbles;
         void display();
         void burstBubble(int x, int y);
         int touchBubble(int x, int y);
         void stepTinyBubbles();
         void moveTinyBubbles();
         void playerTouch(int x, int y);
+        static bool compare(TinyBubble left, TinyBubble right);
 };
 
 #endif
