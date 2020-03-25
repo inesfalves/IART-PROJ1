@@ -1,6 +1,7 @@
 #include <iostream>
 #include "tinybubble.h"
 #include "board.h"
+#include "solution_graph.h"
 
 // C++ program to print DFS traversal from 
 // a given vertex in a given graph 
