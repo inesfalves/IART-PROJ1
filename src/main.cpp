@@ -28,7 +28,7 @@ int main()
 
     cout << "MOVE 1 ----------------------"<<endl;
 
-    board.playerTouch(2,3);
+    board.playerTouch(1,3);
 
     cout << "MOVE 2 ----------------------"<<endl;
 
@@ -36,7 +36,7 @@ int main()
 
     cout << "MOVE 3 ----------------------"<<endl;
 
-    board.playerTouch(1,3);
+    board.playerTouch(2,3);
 
 
     /*

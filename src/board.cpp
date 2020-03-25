@@ -6,7 +6,7 @@
 
 using namespace std;
 
-Board::Board(){}
+Board::Board()= default;
 
 Board::Board(vector<vector<int>> b){
     for (int i = 0; i < 6; i++){ 
@@ -56,44 +56,67 @@ int Board::touchBubble(int x, int y){
     return 0;
 }
 
+bool Board::compare(const TinyBubble left, const TinyBubble right) {
+    int rightValue = 0, leftValue = 0;
+
+    if(left.direction == 'L' || left.direction == 'R'){
+        leftValue = 2;
+    }else{
+        leftValue = 1;
+    }
+
+    if(right.direction == 'L' || right.direction == 'R'){
+        rightValue = 2;
+    }else{
+        rightValue = 1;
+    }
+
+    return leftValue > rightValue;
+}
+
 void Board::stepTinyBubbles(){
-    cout << "BEFORE STEPTINYBUBBLES" << endl;
-    for(size_t i = 0; i < this->tiny_bubbles.size(); i++){
-        this->tiny_bubbles.at(i).display();
-        if(i%4 == 0)
-            cout<<endl;
+    sort(tiny_bubbles.begin(), tiny_bubbles.end(), &compare);
+    this->bursting_bubbles = this->tiny_bubbles;
+
+   /* cout << "BEFORE STEPTINYBUBBLES" << endl;
+    for(auto & tiny_bubble : this->tiny_bubbles){
+        tiny_bubble.display();
+    }
+    cout<<endl;*/
+    this->tiny_bubbles.clear();
+
+
+    for(auto & tiny : this->bursting_bubbles){
+        tiny.move();
+        if(!(tiny.x_position < 0 || tiny.y_position < 0 || tiny.x_position >= 5 || tiny.y_position >= 6)){
+            if(this->board.at(tiny.y_position).at(tiny.x_position) > 0){
+                this->touchBubble(tiny.x_position, tiny.y_position);
+            }else{
+                this->tiny_bubbles.push_back(tiny);
+            }
+        }
+    }
+/*
+    cout << "AFTER STEPTINYBUBBLES" << endl;
+    for(auto & tiny_bubble : this->tiny_bubbles){
+        tiny_bubble.display();
     }
     cout<<endl;
-    for(size_t i = 0; i < this->tiny_bubbles.size(); i++){
-        this->tiny_bubbles.at(i).move();
-        TinyBubble tiny = this->tiny_bubbles.at(i);
-        if(tiny.x_position < 0 || tiny.y_position < 0 || tiny.x_position >= 5 || tiny.y_position >= 6){
-            tiny_bubbles.erase(tiny_bubbles.begin() + i);
-            i--;
-        }
-        else if(this->board.at(tiny.y_position).at(tiny.x_position) > 0){
-            this->touchBubble(tiny.x_position, tiny.y_position);
-            tiny_bubbles.erase(tiny_bubbles.begin() + i);
-            i--;
-        }
-    }
+*/
     if(this->board != this->oldBoard){
         this->display();
         this->oldBoard = this->board;
-        cout << "AFTER STEPTINYBUBBLES" << endl;
-        for(size_t i = 0; i < this->tiny_bubbles.size(); i++){
-            this->tiny_bubbles.at(i).display();
-            if(i%4 == 0)
-                cout<<endl;
-        }
-        cout<<endl;
     }
 }
 
 
 void Board::moveTinyBubbles(){
-    while(this->tiny_bubbles.size() > 0){
+    while(!this->tiny_bubbles.empty()){
         this->stepTinyBubbles();
+    }
+    if(this->board != this->oldBoard){
+        this->display();
+        this->oldBoard = this->board;
     }
 }
 
