@@ -11,8 +11,8 @@ Board::Board(){}
 Board::Board(vector<vector<int>> b){
     for (int i = 0; i < 6; i++){ 
         for (int j = 0; j < 5; j++){ 
-            this->board[i][j] = b[i][j];
-            this->oldBoard[i][j] = b[i][j];
+            this->board.at(i).at(j) = b.at(i).at(j);
+            this->oldBoard.at(i).at(j) = b.at(i).at(j);
         } 
     }
 }
@@ -20,7 +20,7 @@ Board::Board(vector<vector<int>> b){
 void Board::display(){
     for (int i = 0; i < 6; i++){ 
         for (int j = 0; j < 5; j++){ 
-            cout << " " << this->board[i][j] << " ";
+            cout << " " << this->board.at(i).at(j) << " ";
         } 
         cout << endl;
     }
@@ -39,7 +39,7 @@ void Board::burstBubble(int x, int y){
     this->tiny_bubbles.push_back(tiny_bubble3);
     this->tiny_bubbles.push_back(tiny_bubble4);
 
-    this->board[y][x] = 0;
+    this->board.at(y).at(x) = 0;
     
 }
 
@@ -47,11 +47,11 @@ int Board::touchBubble(int x, int y){
     if(x < 0 || y < 0 || x >= 5 || y >= 6){
         return -1;
     }
-    if(this->board[y][x] == 1){
+    if(this->board.at(y).at(x) == 1){
         this->burstBubble(x,y);
     }
-    else if(this->board[y][x] > 1){
-        this->board[y][x]--;
+    else if(this->board.at(y).at(x) > 1){
+        this->board.at(y).at(x)--;
     }
     return 0;
 }
@@ -71,7 +71,7 @@ void Board::stepTinyBubbles(){
             tiny_bubbles.erase(tiny_bubbles.begin() + i);
             i--;
         }
-        else if(this->board[tiny.y_position][tiny.x_position] > 0){
+        else if(this->board.at(tiny.y_position).at(tiny.x_position) > 0){
             this->touchBubble(tiny.x_position, tiny.y_position);
             tiny_bubbles.erase(tiny_bubbles.begin() + i);
             i--;
