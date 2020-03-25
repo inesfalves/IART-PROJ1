@@ -10,9 +10,10 @@ using namespace std;
 class Board {
 
     public:
-        int board[6][5];
+        vector<vector<int>> board{{0,0,0,0,0}, {0,0,0,0,0}, {0,0,0,0,0}, {0,0,0,0,0}, {0,0,0,0,0}, {0,0,0,0,0}};
+        vector<vector<int>> oldBoard{{0,0,0,0,0}, {0,0,0,0,0}, {0,0,0,0,0}, {0,0,0,0,0}, {0,0,0,0,0}, {0,0,0,0,0}};
         Board();
-        Board(int board[6][5]);
+        Board(vector<vector<int>>);
         vector<TinyBubble> tiny_bubbles;
         void display();
         void burstBubble(int x, int y);

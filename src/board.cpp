@@ -1,17 +1,20 @@
 #include <iostream>
 #include <vector>
+#include "algorithm"
+#include "iterator"
 #include "board.h"
 
 using namespace std;
 
 Board::Board(){}
 
-Board::Board(int b[6][5]){
+Board::Board(vector<vector<int>> b){
     for (int i = 0; i < 6; i++){ 
         for (int j = 0; j < 5; j++){ 
             this->board[i][j] = b[i][j];
+            this->oldBoard[i][j] = b[i][j];
         } 
-    } 
+    }
 }
 
 void Board::display(){
@@ -48,7 +51,7 @@ int Board::touchBubble(int x, int y){
         this->burstBubble(x,y);
     }
     else if(this->board[y][x] > 1){
-        this->board[y][x]--;  
+        this->board[y][x]--;
     }
     return 0;
 }
@@ -74,7 +77,10 @@ void Board::stepTinyBubbles(){
             i--;
         }
     }
-    this->display();
+    if(this->board != this->oldBoard){
+        this->display();
+        this->oldBoard = this->board;
+    }
 }
 
 void Board::moveTinyBubbles(){
