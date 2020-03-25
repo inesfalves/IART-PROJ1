@@ -1,23 +1,26 @@
 #include <iostream>
 #include <vector>
+#include "algorithm"
+#include "iterator"
 #include "board.h"
 
 using namespace std;
 
 Board::Board(){}
 
-Board::Board(int b[6][5]){
+Board::Board(vector<vector<int>> b){
     for (int i = 0; i < 6; i++){ 
         for (int j = 0; j < 5; j++){ 
-            this->board[i][j] = b[i][j];
+            this->board.at(i).at(j) = b.at(i).at(j);
+            this->oldBoard.at(i).at(j) = b.at(i).at(j);
         } 
-    } 
+    }
 }
 
 void Board::display(){
     for (int i = 0; i < 6; i++){ 
         for (int j = 0; j < 5; j++){ 
-            cout << " " << this->board[i][j] << " ";
+            cout << " " << this->board.at(i).at(j) << " ";
         } 
         cout << endl;
     }
@@ -36,7 +39,7 @@ void Board::burstBubble(int x, int y){
     this->tiny_bubbles.push_back(tiny_bubble3);
     this->tiny_bubbles.push_back(tiny_bubble4);
 
-    this->board[y][x] = 0;
+    this->board.at(y).at(x) = 0;
     
 }
 
@@ -44,79 +47,49 @@ int Board::touchBubble(int x, int y){
     if(x < 0 || y < 0 || x >= 5 || y >= 6){
         return -1;
     }
-    if(this->board[y][x] == 1){
+    if(this->board.at(y).at(x) == 1){
         this->burstBubble(x,y);
     }
-    else if(this->board[y][x] > 1){
-        this->board[y][x]--;  
+    else if(this->board.at(y).at(x) > 1){
+        this->board.at(y).at(x)--;
     }
     return 0;
 }
 
-
-/*void Board::stepTinyBubbles(){
-    for(size_t i = 0; i < this->tiny_bubbles.size(); i++){
-        this->tiny_bubbles.at(i).display();
-        if(i%4 == 0)
-            cout<<endl;
-    }
-    cout << endl;
-    for(size_t i = 0; i < this->tiny_bubbles.size(); i++){
-        this->tiny_bubbles.at(i).move();
-        TinyBubble tiny = this->tiny_bubbles.at(i);
-        if(tiny.x_position < 0 || tiny.y_position < 0 || tiny.x_position >= 5 || tiny.y_position >= 6){
-            tiny_bubbles.erase(tiny_bubbles.begin() + i);
-            i--;
-        }
-        else if(this->board[tiny.y_position][tiny.x_position] > 0){
-            this->touchBubble(tiny.x_position, tiny.y_position);
-            tiny_bubbles.erase(tiny_bubbles.begin() + i);
-            i--;
-        }
-    }
-    this->display();
-    for(size_t i = 0; i < this->tiny_bubbles.size(); i++){
-        this->tiny_bubbles.at(i).display();
-        if(i%4 == 0)
-            cout<<endl;
-    }
-    cout << endl;
-}*/
-
 void Board::stepTinyBubbles(){
-    vector<TinyBubble> tiny_final;
-    cout << "BEFORE MOVE" << endl;
+    cout << "BEFORE STEPTINYBUBBLES" << endl;
     for(size_t i = 0; i < this->tiny_bubbles.size(); i++){
         this->tiny_bubbles.at(i).display();
         if(i%4 == 0)
             cout<<endl;
     }
-    cout << endl;
+    cout<<endl;
     for(size_t i = 0; i < this->tiny_bubbles.size(); i++){
         this->tiny_bubbles.at(i).move();
         TinyBubble tiny = this->tiny_bubbles.at(i);
         if(tiny.x_position < 0 || tiny.y_position < 0 || tiny.x_position >= 5 || tiny.y_position >= 6){
-            continue;
+            tiny_bubbles.erase(tiny_bubbles.begin() + i);
+            i--;
         }
-        else if(this->board[tiny.y_position][tiny.x_position] > 0){
+        else if(this->board.at(tiny.y_position).at(tiny.x_position) > 0){
             this->touchBubble(tiny.x_position, tiny.y_position);
-        }
-        else{
-            tiny_final.push_back(tiny);
+            tiny_bubbles.erase(tiny_bubbles.begin() + i);
+            i--;
         }
     }
-
-    this->display();
-
-    cout << "AFTER MOVE" << endl;
-    this->tiny_bubbles = tiny_final;
-    for(size_t i = 0; i < this->tiny_bubbles.size(); i++){
-        this->tiny_bubbles.at(i).display();
-        if(i%4 == 0)
-            cout<<endl;
+    if(this->board != this->oldBoard){
+        this->display();
+        this->oldBoard = this->board;
+        cout << "AFTER STEPTINYBUBBLES" << endl;
+        for(size_t i = 0; i < this->tiny_bubbles.size(); i++){
+            this->tiny_bubbles.at(i).display();
+            if(i%4 == 0)
+                cout<<endl;
+        }
+        cout<<endl;
     }
-    cout << endl;
 }
+
 
 void Board::moveTinyBubbles(){
     while(this->tiny_bubbles.size() > 0){
