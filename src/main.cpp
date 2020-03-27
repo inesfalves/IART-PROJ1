@@ -60,7 +60,7 @@ int main()
 
     //int level3[6][5] = {{}, {}, {}, {}, {}, {}};
 
-    board = Board(level20);
+    board = Board(level8);
 
     vector<vector<int>> test = board.simulatePlayerTouch(2, 4);
 
@@ -75,16 +75,16 @@ int main()
 
     cout << "MOVE 1 ----------------------"<<endl;
 
-    board.playerTouch(2,4);
-/*
+    board.playerTouch(1,3);
+
     cout << "MOVE 2 ----------------------"<<endl;
 
-    board.playerTouch(3,3);
+    board.playerTouch(2,3);
 
     cout << "MOVE 3 ----------------------"<<endl;
 
     board.playerTouch(2,3);
-    */
+    
 
     /*
     // Create a graph given in the above diagram 

@@ -13,6 +13,7 @@ class TinyBubble {
         TinyBubble(char direction, int x_position, int y_position);
         void move();
         void display();
+        bool operator< (const TinyBubble bubble) const;
 };
 
 #endif

@@ -27,3 +27,28 @@ void TinyBubble::display(){
     cout << "(" << this->direction << "," << this->x_position << "," << this->y_position << ") ";
 }
 
+bool TinyBubble::operator< (const TinyBubble left) const{
+
+    int rightValue = 0, leftValue = 0;
+
+    if (left.direction == 'L' || left.direction == 'R')
+    {
+        leftValue = 2;
+    }
+    else
+    {
+        leftValue = 1;
+    }
+
+    if (this->direction == 'L' || this->direction == 'R')
+    {
+        rightValue = 2;
+    }
+    else
+    {
+        rightValue = 1;
+    }
+
+    return leftValue < rightValue;
+}
+
