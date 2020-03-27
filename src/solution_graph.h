@@ -2,7 +2,7 @@
 #define SOL_GRAPH_H
 
 #include <utility>
-#include "queue"
+#include <queue>
 #include "board.h"
 
 using namespace std;

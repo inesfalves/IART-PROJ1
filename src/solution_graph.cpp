@@ -16,20 +16,20 @@ vector<pair<int, int>> Tree::BFS(Board starting_board) {
 
     vector<pair<int, int>> moves;
 
-    Queue queue;
+    queue<Node*> queue;
     Node* root = new Node(nullptr, starting_board);
     this->root = root;
 
     Node* currentNode, *solutionNode;
 
-    queue.push_back(root);
+    queue.push(root);
 
     bool finished = false;
 
-    while (!queue.isEmpty() && !finished) {
+    while (!queue.empty() && !finished) {
        currentNode = queue.front();
-       currentBoard = currentNode->board;
-       queue.pop_front();
+       Board currentBoard = currentNode->board;
+       queue.pop();
        vector<pair<int, int>> plays = currentBoard.possiblePlays();
        for(size_t i = 0; i < plays.size(); i++){
            Board newBoard = Board(currentBoard.simulatePlayerTouch(plays.at(i).first, plays.at(i).second));
@@ -40,7 +40,7 @@ vector<pair<int, int>> Tree::BFS(Board starting_board) {
                solutionNode = newNode;
                finished = true;
            } else{
-               queue.push_back(newNode);
+               queue.push(newNode);
            }
        }
     }
