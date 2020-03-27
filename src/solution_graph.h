@@ -20,9 +20,15 @@ class Node{
         }
 
         void add_child(Node *child) { children.push_back(child); }
+};
+
+class Tree{
+    public:
+        Node *root;
 
         vector<pair<int,int>> DFS(Board starting_board);
         vector<pair<int,int>> BFS(Board starting_board);
+
 };
 
 
