@@ -34,6 +34,47 @@ void Board::display()
     cout << endl;
 }
 
+vector<TinyBubble> Board::getTinyBubbles() const{
+    return tiny_bubbles;
+}
+
+vector<TinyBubble> Board::getBurstingBubbles() const{
+    return bursting_bubbles;
+}
+
+void Board::setTinyBubbles(vector<TinyBubble> tiny_bubbles){
+    this->tiny_bubbles = tiny_bubbles;
+}
+
+void Board::setBurstingBubbles(vector<TinyBubble> bursting_bubbles){
+    this->bursting_bubbles = bursting_bubbles;
+}
+
+
+vector<vector<int>> Board::getBoard() const{
+    return board;
+}
+
+vector<vector<int>> Board::getSimulatedBoard() const{
+    return simulatedBoard;
+}
+
+vector<vector<int>> Board::getOldBoard() const{
+    return oldBoard;
+}
+
+void Board::setBoard(vector<vector<int>> board){
+    this->board = board;
+}
+
+void Board::setSimulatedBoard(vector<vector<int>> simulatedBoard){
+    this->simulatedBoard = simulatedBoard;
+}
+
+void Board::setOldBoard(vector<vector<int>> oldBoard){
+    this->oldBoard = oldBoard;
+}
+
 void Board::burstBubble(int x, int y, bool simulation)
 {
     TinyBubble tiny_bubble1 = TinyBubble('L', x, y);
@@ -99,11 +140,11 @@ void Board::stepTinyBubbles(bool simulation)
     for (auto &tiny : this->bursting_bubbles)
     {
         tiny.move();
-        if (!(tiny.x_position < 0 || tiny.y_position < 0 || tiny.x_position >= 5 || tiny.y_position >= 6))
+        if (!(tiny.getXPosition() < 0 || tiny.getYPosition() < 0 || tiny.getXPosition() >= 5 || tiny.getYPosition() >= 6))
         {
-            if (this->board.at(tiny.y_position).at(tiny.x_position) > 0)
+            if (this->board.at(tiny.getYPosition()).at(tiny.getXPosition()) > 0)
             {
-                this->touchBubble(tiny.x_position, tiny.y_position, simulation);
+                this->touchBubble(tiny.getXPosition(), tiny.getYPosition(), simulation);
             }
             else
             {
