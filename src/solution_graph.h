@@ -1,7 +1,8 @@
 #ifndef SOL_GRAPH_H
 #define SOL_GRAPH_H
 
-#include <utility>   
+#include <utility>
+#include "queue"
 #include "board.h"
 
 using namespace std;
