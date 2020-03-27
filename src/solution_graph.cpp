@@ -5,13 +5,13 @@
 
 
 vector<pair<int,int>> Tree::DFS(Board starting_board, int max_moves){
-    this->root = new Node(NULL, starting_board);
+    this->root = new Node(nullptr, std::move(starting_board));
     vector<pair<int,int>> possible_plays = this->root->board.possiblePlays();
     vector<pair<int,int>> solution;
     for(size_t i=0; i<possible_plays.size(); i++){
         Node* final_node = DFS_helper(this->root, max_moves, 1);
-        if(final_node != NULL){
-            while(final_node->parent != NULL){
+        if(final_node != nullptr){
+            while(final_node->parent != nullptr){
                 solution.push_back(final_node->touchedBubble);
                 final_node = final_node->parent;
             }
@@ -27,18 +27,18 @@ Node* Tree::DFS_helper(Node* current_node, int max_moves, int depth){
         return current_node;
     }
     else if(depth>=max_moves){
-        return NULL;
+        return nullptr;
     }
     vector<pair<int,int>> possible_plays = this->root->board.possiblePlays();
-    for(size_t i=0; i<possible_plays.size(); i++){
-        current_node->board.simulatePlayerTouch(possible_plays.at(i).first, possible_plays.at(i).second);
+    for(auto & possible_play : possible_plays){
+        current_node->board.simulatePlayerTouch(possible_play.first, possible_play.second);
         Node* new_node = new Node(current_node, current_node->board.getSimulatedBoard());
         Node* final_node = DFS_helper(new_node, max_moves, depth++);
-        if(final_node != NULL){
+        if(final_node != nullptr){
             return final_node;
         }
     }
-    return NULL;
+    return nullptr;
 }
 
 vector<pair<int, int>> Tree::BFS(Board starting_board) {
@@ -65,8 +65,8 @@ vector<pair<int, int>> Tree::BFS(Board starting_board) {
        currentBoard.display();
 
        cout << "Plays" << endl;
-       for(int i = 0; i < plays.size(); i++){
-           cout << plays.at(i).first << " " << plays.at(i).second << endl;
+       for(auto & play : plays){
+           cout << play.first << " " << play.second << endl;
        }
        cout << "----------------------------------------------------" << endl;
 
