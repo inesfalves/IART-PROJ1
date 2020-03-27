@@ -32,6 +32,8 @@ class Board {
         void simulateMoveTinyBubbles();
         void simulateStepTinyBubbles();
         void simulateBurstBubble(int x, int y);
+
+    int possiblePlays();
 };
 
 #endif

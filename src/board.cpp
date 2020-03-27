@@ -115,10 +115,25 @@ void Board::playerTouch(int x, int y){
     this->moveTinyBubbles();
 }
 
+int Board::possiblePlays(){
+
+    int plays = 0;
+
+    for(auto & i : this->board){
+        for(int j : i){
+            if(j != 0){
+                plays++;
+            }
+        }
+    }
+
+    return plays;
+}
+
 bool Board::isSolution(){
-    for(size_t i = 0; i < this->board.size(); i++){
-        for(size_t j=0; j < this->board.at(0).size(); j++){
-            if(this->board.at(i).at(j) != 0){
+    for(auto & i : this->board){
+        for(int j : i){
+            if(j != 0){
                 return false;
             }
         }
