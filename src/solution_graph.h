@@ -1,35 +1,35 @@
 #ifndef SOL_GRAPH_H
 #define SOL_GRAPH_H
 
+#include <utility>   
 #include "board.h"
 
-class Edge;
+using namespace std;
 
-class Vertex {
+class Node{
+
     public:
-        Board vertexBoard;
-        vector<Edge> adj;
-        Vertex *path = NULL;
+        int depth;
+        Board board;
+        pair<int,int> touchedBubble;
+        Node *parent;
+        vector<Node *> children;
 
-        Vertex(Board vBoard);
-        void addEdge(int bubble_x, int bubble_y, Vertex* result);    
+        explicit Node(Node *parent) : parent(parent), depth(parent->depth+1)
+        {
+        }
+
+        void add_child(Node *child) { children.push_back(child); }
+};
+
+class Tree{
+    public:
+        Node *root;
+
+        vector<pair<int,int>> DFS(Board starting_board);
+        vector<pair<int,int>> BFS(Board starting_board);
 
 };
 
-class Edge {
-    public:
-        Vertex *dest;
-        int bubble_x, bubble_y;
-
-        Edge(int x, int y, Vertex* r); 
-};
-
-class SolGraph {
-    public:
-        vector<Vertex*> vertexSet;
-
-        void addVertex(Vertex *in);
-	    bool addEdge(const Vertex &sourc, const Vertex &dest, int bubble_x, int bubble_y);
-};
 
 #endif

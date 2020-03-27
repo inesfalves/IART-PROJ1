@@ -29,6 +29,7 @@ class Board {
 
 
         vector<vector<int>> simulatePlayerTouch(int x, int y);
+        int possiblePlays();
 };
 
 #endif

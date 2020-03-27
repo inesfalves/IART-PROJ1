@@ -1,19 +1,17 @@
 #include "solution_graph.h"
 
-/* Vertex */
 
-Vertex::Vertex(Board vBoard): vertexBoard(vBoard){}
 
-void Vertex::addEdge(int bubble_x, int bubble_y, Vertex* result){
-    this->adj.push_back(Edge(bubble_x, bubble_y, result));
+vector<pair<int,int>> Tree::DFS(Board starting_board){
+    /*Node starting_vertex = Vertex(starting_board);
+    this->addVertex(&starting_vertex);
+    vector<pair<int,int>> solution;
+    pair<int,int> nextBubble(0,0);
+    while(true){
+        
+    }*/
 }
 
-/* Edge */
-
-Edge::Edge(int x, int y, Vertex* r): bubble_x(x), bubble_y(y), dest(r){}
-
-/* Graph */
-
-void SolGraph::addVertex(Vertex* in){
-    this->vertexSet.push_back(in);
+vector<pair<int, int>> Tree::BFS(Board starting_board) {
+    return vector<pair<int, int>>();
 }
