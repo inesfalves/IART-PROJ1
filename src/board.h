@@ -24,6 +24,8 @@ class Board {
         void moveTinyBubbles();
         void playerTouch(int x, int y);
         static bool compare(TinyBubble left, TinyBubble right);
+        bool isSolution();
+        pair<int,int> getNextBubble(pair<int,int> bubble_coords);
 
         vector<vector<int>> simulatePlayerTouch(int x, int y);
         int simulateTouchBubble(int x, int y);
