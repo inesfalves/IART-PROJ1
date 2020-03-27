@@ -25,7 +25,7 @@ int main()
 
     vector<vector<int>> level8 = {{1,2,2,2,1}, {2,4,3,4,2}, {2,2,2,2,2}, {2,2,2,2,2}, {1,2,2,2,1}, {1,2,1,2,1}};
 
-    vector<vector<int>> level9 = {{0,0,0,0,0}, {0,0,0,0,0}, {0,0,1,0,0}, {0,0,0,0,0}, {0,0,0,0,0}, {0,0,0,0,0}};
+    vector<vector<int>> level9 = {{1,0,1,0,1}, {2,0,1,0,2}, {2,0,1,0,2}, {2,0,1,0,2}, {2,0,1,0,2}, {2,3,1,3,2}};
 
     vector<vector<int>> level10 = {{2,2,2,2,2}, {2,1,2,1,2}, {2,0,1,0,2}, {2,0,1,0,2}, {2,1,3,1,2}, {2,2,2,2,2}};
 
@@ -87,7 +87,7 @@ int main()
 
     Tree* tree = new Tree();
     vector<pair<int,int>> vec;
-    vec = tree->BFS(level8);
+    vec = tree->DFS(level9, 3);
     for(auto & i : vec){
         cout << i.first <<  "   " << i.second << endl;
     }
