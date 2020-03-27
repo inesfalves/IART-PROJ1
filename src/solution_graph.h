@@ -15,8 +15,15 @@ class Node{
         Node *parent;
         vector<Node *> children;
 
-        explicit Node(Node *parent) : parent(parent), depth(parent->depth+1)
+        Node(Node *parent, Board board) : board(std::move(board))
         {
+            if(parent != nullptr){
+                this->parent = parent;
+                this->depth = parent->depth + 1;
+            }else{
+                this->parent = nullptr;
+                this->depth = 0;
+            }
         }
 
         void add_child(Node *child) { children.push_back(child); }

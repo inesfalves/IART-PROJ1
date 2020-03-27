@@ -13,5 +13,22 @@ vector<pair<int,int>> Tree::DFS(Board starting_board){
 }
 
 vector<pair<int, int>> Tree::BFS(Board starting_board) {
-    return vector<pair<int, int>>();
+
+    vector<pair<int, int>> moves;
+
+    Queue queue;
+    Node* root(nullptr, starting_board);
+    this->root = root;
+
+    Node* currentNode;
+
+    queue.insert(root);
+
+    while (!queue.isEmpty()) {
+       currentNode = queue.front();
+       queue.pop_front();
+    }
+
+
+    return moves;
 }
