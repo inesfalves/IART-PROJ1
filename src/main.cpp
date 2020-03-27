@@ -62,9 +62,9 @@ int main()
 
     board = Board(level20);
 
-    levelx = board.simulatePlayerTouch(2, 4);
+    vector<vector<int>> test = board.simulatePlayerTouch(2, 4);
 
-    for (auto & i : levelx) {
+    for (auto & i : test) {
         for (int j : i) {
             cout << j << " ";
         }
