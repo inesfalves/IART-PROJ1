@@ -187,14 +187,15 @@ void Board::playerTouch(int x, int y)
     this->moveTinyBubbles(false);
 }
 
-int Board::possiblePlays(){
+vector<pair<int, int>>  Board::possiblePlays(){
 
-    int plays = 0;
+    vector<pair<int, int>> plays;
 
-    for(auto & i : this->board){
-        for(int j : i){
-            if(j != 0){
-                plays++;
+    for(size_t i = 0; i < this->board.size(); i++){
+        for(size_t j = 0; j < this->board.at(i).size(); j++){
+            if(this->board.at(i).at(j) != 0){
+                pair<int,int> position(j,i);
+                plays.push_back(position);
             }
         }
     }

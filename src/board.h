@@ -40,7 +40,7 @@ public:
     bool isSolution();
     pair<int, int> getNextBubble(pair<int, int> bubble_coords);
     vector<vector<int>> simulatePlayerTouch(int x, int y);
-    int possiblePlays();
+    vector<pair<int, int>> possiblePlays();
 };
 
 #endif
