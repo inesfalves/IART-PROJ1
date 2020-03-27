@@ -13,6 +13,7 @@ Board::Board(vector<vector<int>> b){
         for (int j = 0; j < 5; j++){ 
             this->board.at(i).at(j) = b.at(i).at(j);
             this->oldBoard.at(i).at(j) = b.at(i).at(j);
+            this->simulatedBoard.at(i).at(j) = b.at(i).at(j);
         } 
     }
 }
@@ -136,3 +137,69 @@ pair<int,int> Board::getNextBubble(pair<int,int> bubble_coords){
     }
     return make_pair(0,0);
 }
+
+
+
+void Board::simulateStepTinyBubbles(){
+    sort(tiny_bubbles.begin(), tiny_bubbles.end(), &compare);
+    this->bursting_bubbles = this->tiny_bubbles;
+    this->tiny_bubbles.clear();
+
+
+    for(auto & tiny : this->bursting_bubbles){
+        tiny.move();
+        if(!(tiny.x_position < 0 || tiny.y_position < 0 || tiny.x_position >= 5 || tiny.y_position >= 6)){
+            if(this->board.at(tiny.y_position).at(tiny.x_position) > 0){
+                this->simulateTouchBubble(tiny.x_position, tiny.y_position);
+            }else{
+                this->tiny_bubbles.push_back(tiny);
+            }
+        }
+    }
+
+}
+
+
+void Board::simulateMoveTinyBubbles(){
+    while(!this->tiny_bubbles.empty()){
+        this->simulateStepTinyBubbles();
+    }
+}
+
+int Board::simulateTouchBubble(int x, int y){
+    if(x < 0 || y < 0 || x >= 5 || y >= 6){
+        return -1;
+    }
+    if(this->simulatedBoard.at(y).at(x) == 1){
+        this->simulateBurstBubble(x,y);
+    }
+    else if(this->simulatedBoard.at(y).at(x) > 1){
+        this->simulatedBoard.at(y).at(x)--;
+    }
+    return 0;
+}
+
+void Board::simulateBurstBubble(int x, int y){
+
+    TinyBubble tiny_bubble1 = TinyBubble('L',x,y);
+    TinyBubble tiny_bubble2 = TinyBubble('R',x,y);
+    TinyBubble tiny_bubble3 = TinyBubble('U',x,y);
+    TinyBubble tiny_bubble4 = TinyBubble('D',x,y);
+
+    this->tiny_bubbles.push_back(tiny_bubble1);
+    this->tiny_bubbles.push_back(tiny_bubble2);
+    this->tiny_bubbles.push_back(tiny_bubble3);
+    this->tiny_bubbles.push_back(tiny_bubble4);
+
+    this->simulatedBoard.at(y).at(x) = 0;
+
+}
+
+vector<vector<int>> Board::simulatePlayerTouch(int x, int y) {
+    this->tiny_bubbles.clear();
+    this->simulateTouchBubble(x,y);
+    this->simulateMoveTinyBubbles();
+
+    return this->simulatedBoard;
+}
+

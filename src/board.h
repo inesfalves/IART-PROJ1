@@ -11,6 +11,7 @@ class Board {
 
     public:
         vector<vector<int>> board{{0,0,0,0,0}, {0,0,0,0,0}, {0,0,0,0,0}, {0,0,0,0,0}, {0,0,0,0,0}, {0,0,0,0,0}};
+        vector<vector<int>> simulatedBoard{{0,0,0,0,0}, {0,0,0,0,0}, {0,0,0,0,0}, {0,0,0,0,0}, {0,0,0,0,0}, {0,0,0,0,0}};
         vector<vector<int>> oldBoard{{0,0,0,0,0}, {0,0,0,0,0}, {0,0,0,0,0}, {0,0,0,0,0}, {0,0,0,0,0}, {0,0,0,0,0}};
         Board();
         Board(vector<vector<int>>);
@@ -25,6 +26,12 @@ class Board {
         static bool compare(TinyBubble left, TinyBubble right);
         bool isSolution();
         pair<int,int> getNextBubble(pair<int,int> bubble_coords);
+
+        vector<vector<int>> simulatePlayerTouch(int x, int y);
+        int simulateTouchBubble(int x, int y);
+        void simulateMoveTinyBubbles();
+        void simulateStepTinyBubbles();
+        void simulateBurstBubble(int x, int y);
 };
 
 #endif
