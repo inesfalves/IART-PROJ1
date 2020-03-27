@@ -78,11 +78,6 @@ void Board::stepTinyBubbles(){
     sort(tiny_bubbles.begin(), tiny_bubbles.end(), &compare);
     this->bursting_bubbles = this->tiny_bubbles;
 
-   /* cout << "BEFORE STEPTINYBUBBLES" << endl;
-    for(auto & tiny_bubble : this->tiny_bubbles){
-        tiny_bubble.display();
-    }
-    cout<<endl;*/
     this->tiny_bubbles.clear();
 
 
@@ -96,13 +91,6 @@ void Board::stepTinyBubbles(){
             }
         }
     }
-/*
-    cout << "AFTER STEPTINYBUBBLES" << endl;
-    for(auto & tiny_bubble : this->tiny_bubbles){
-        tiny_bubble.display();
-    }
-    cout<<endl;
-*/
     if(this->board != this->oldBoard){
         this->display();
         this->oldBoard = this->board;
@@ -126,3 +114,25 @@ void Board::playerTouch(int x, int y){
     this->moveTinyBubbles();
 }
 
+bool Board::isSolution(){
+    for(size_t i = 0; i < this->board.size(); i++){
+        for(size_t j=0; j < this->board.at(0).size(); j++){
+            if(this->board.at(i).at(j) != 0){
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
+//returns next bubble coordinates, if there is no next bubble returns (0,0)
+pair<int,int> Board::getNextBubble(pair<int,int> bubble_coords){
+    for(size_t i = bubble_coords.second+1; i < this->board.size(); i++){
+        for(size_t j = bubble_coords.first+1; j < this->board.at(0).size(); j++){
+            if(this->board.at(i).at(j) !=0){
+                return make_pair(j,i);
+            }
+        }
+    }
+    return make_pair(0,0);
+}
