@@ -8,6 +8,30 @@ TinyBubble::TinyBubble(char direction, int x_position, int y_position){
     this->y_position = y_position;
 }
 
+char TinyBubble::getDirection() const{
+    return direction;
+}
+
+int TinyBubble::getXPosition() const{
+    return x_position;
+}
+
+int TinyBubble::getYPosition() const{
+    return y_position;
+}
+
+void TinyBubble::setDirection(char direction){
+    this->direction = direction;
+}
+
+void TinyBubble::setXPosition(int x_position){
+    this->x_position = x_position;
+}
+
+void TinyBubble::setYPosition(int y_position){
+    this->y_position = y_position;
+}
+
 void TinyBubble::move(){
     if(this->direction == 'U'){
         this->y_position--;
