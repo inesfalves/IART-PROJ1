@@ -15,7 +15,7 @@ class Node{
         Node *parent;
         vector<Node *> children;
 
-        Node(Node *parent) : parent(parent)
+        explicit Node(Node *parent) : parent(parent), depth(parent->depth+1)
         {
         }
 

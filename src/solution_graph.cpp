@@ -11,3 +11,7 @@ vector<pair<int,int>> Tree::DFS(Board starting_board){
         
     }*/
 }
+
+vector<pair<int, int>> Tree::BFS(Board starting_board) {
+    return vector<pair<int, int>>();
+}
