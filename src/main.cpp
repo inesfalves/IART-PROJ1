@@ -60,6 +60,7 @@ int main()
 
     //int level3[6][5] = {{}, {}, {}, {}, {}, {}};
 
+    /*
     board = Board(level8);
 
     vector<vector<int>> test = board.simulatePlayerTouch(2, 4);
@@ -84,7 +85,15 @@ int main()
     cout << "MOVE 3 ----------------------"<<endl;
 
     board.playerTouch(2,3);
-    
+    */
+
+    Tree* tree = new Tree();
+    vector<pair<int,int>> vec;
+    vec = tree->BFS(level8);
+    for(int i = 0; i < vec.size(); i++){
+        cout << vec.at(i).first <<  "   " << vec.at(i).second << endl;
+    }
+
 
     /*
     // Create a graph given in the above diagram 
