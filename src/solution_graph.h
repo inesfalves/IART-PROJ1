@@ -1,7 +1,10 @@
 #ifndef SOL_GRAPH_H
 #define SOL_GRAPH_H
 
+#include <utility>   
 #include "board.h"
+
+using namespace std;
 
 class Edge;
 
@@ -29,7 +32,7 @@ class SolGraph {
         vector<Vertex*> vertexSet;
 
         void addVertex(Vertex *in);
-	    bool addEdge(const Vertex &sourc, const Vertex &dest, int bubble_x, int bubble_y);
+        vector<pair<int,int>> DFS(Board starting_board);
 };
 
 #endif
