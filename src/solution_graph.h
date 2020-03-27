@@ -36,7 +36,7 @@ class Tree{
 
         vector<pair<int,int>> DFS(Board starting_board, int max_moves);
         vector<pair<int,int>> BFS(Board starting_board);
-        Node* Tree::DFS_helper(Node* current_node, int max_moves, int depth);
+        Node* DFS_helper(Node* current_node, int max_moves, int depth);
 };
 
 

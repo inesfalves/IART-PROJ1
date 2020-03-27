@@ -22,7 +22,7 @@ vector<pair<int,int>> Tree::DFS(Board starting_board, int max_moves){
 }
 
 Node* Tree::DFS_helper(Node* current_node, int max_moves, int depth){
-    if(current_node->board.isSolution){
+    if(current_node->board.isSolution()){
         return current_node;
     }
     else if(depth>=max_moves){
@@ -37,6 +37,7 @@ Node* Tree::DFS_helper(Node* current_node, int max_moves, int depth){
             return final_node;
         }
     }
+    return NULL;
 }
 
 vector<pair<int, int>> Tree::BFS(Board starting_board) {
