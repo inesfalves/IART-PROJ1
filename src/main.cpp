@@ -87,7 +87,7 @@ int main()
 
     Tree* tree = new Tree();
     vector<pair<int,int>> vec;
-    vec = tree->BFS(level7);
+    vec = tree->BFS(level8);
     for(auto & i : vec){
         cout << i.first <<  "   " << i.second << endl;
     }

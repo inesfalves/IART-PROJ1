@@ -142,13 +142,24 @@ void Board::stepTinyBubbles(bool simulation)
         tiny.move();
         if (!(tiny.getXPosition() < 0 || tiny.getYPosition() < 0 || tiny.getXPosition() >= 5 || tiny.getYPosition() >= 6))
         {
-            if (this->board.at(tiny.getYPosition()).at(tiny.getXPosition()) > 0)
-            {
-                this->touchBubble(tiny.getXPosition(), tiny.getYPosition(), simulation);
-            }
-            else
-            {
-                this->tiny_bubbles.push_back(tiny);
+            if(simulation){
+                if (this->simulatedBoard.at(tiny.getYPosition()).at(tiny.getXPosition()) > 0)
+                {
+                    this->touchBubble(tiny.getXPosition(), tiny.getYPosition(), simulation);
+                }
+                else
+                {
+                    this->tiny_bubbles.push_back(tiny);
+                }
+            }else{
+                if (this->board.at(tiny.getYPosition()).at(tiny.getXPosition()) > 0)
+                {
+                    this->touchBubble(tiny.getXPosition(), tiny.getYPosition(), simulation);
+                }
+                else
+                {
+                    this->tiny_bubbles.push_back(tiny);
+                }
             }
         }
     }

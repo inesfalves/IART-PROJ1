@@ -60,15 +60,19 @@ vector<pair<int, int>> Tree::BFS(Board starting_board) {
        Board currentBoard = currentNode->board;
        queue.pop();
        vector<pair<int, int>> plays = currentBoard.possiblePlays();
+/*
+        cout << "Parent Board " << endl;
+        if(currentNode->parent != nullptr)
+            currentNode->parent->board.display();
+        cout << "Current Board " << endl;
+        currentBoard.display();
 
-       cout << "Current Board " << endl;
-       currentBoard.display();
 
        cout << "Plays" << endl;
        for(auto & play : plays){
            cout << play.first << " " << play.second << endl;
        }
-       cout << "----------------------------------------------------" << endl;
+       cout << "----------------------------------------------------" << endl;*/
 
        for(auto & play : plays){
            Board newBoard = Board(currentBoard.simulatePlayerTouch(play.first, play.second));
@@ -96,6 +100,7 @@ vector<pair<int, int>> Tree::BFS(Board starting_board) {
         }
     }
 
+    reverse(moves.begin(), moves.end());
 
     return moves;
 }
