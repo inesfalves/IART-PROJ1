@@ -52,10 +52,10 @@ Node *Tree::DFS_helper(Node *current_node, int max_moves, int depth)
     return nullptr;
 }
 
-vector<pair<int, int>> Tree::BFS(Board starting_board)
+vector<pair<int, int>> Tree::BFS(Board starting_board, int max_moves)
 {
-
     vector<pair<int, int>> moves;
+    int max_depth = max_moves - 1;
 
     queue<Node *> queue;
     Node *start = new Node(nullptr, std::move(starting_board));
@@ -72,6 +72,13 @@ vector<pair<int, int>> Tree::BFS(Board starting_board)
        Board currentBoard = currentNode->board;
        queue.pop();
        vector<pair<int, int>> plays = currentBoard.possiblePlays();
+
+       if(currentNode->depth > max_depth){
+           pair<int,int> impossible(-1,-1);
+           moves.push_back(impossible);
+           return moves;
+       }
+
 /*
         cout << "Parent Board " << endl;
         if(currentNode->parent != nullptr)
