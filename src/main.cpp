@@ -87,11 +87,12 @@ int main()
     board.playerTouch(2,3);
     */
 
+
     Tree* tree = new Tree();
     vector<pair<int,int>> vec;
-    vec = tree->BFS(level8);
-    for(int i = 0; i < vec.size(); i++){
-        cout << vec.at(i).first <<  "   " << vec.at(i).second << endl;
+    vec = tree->BFS(level7);
+    for(auto & i : vec){
+        cout << i.first <<  "   " << i.second << endl;
     }
 
 

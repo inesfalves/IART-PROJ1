@@ -233,6 +233,7 @@ pair<int, int> Board::getNextBubble(pair<int, int> bubble_coords)
 vector<vector<int>> Board::simulatePlayerTouch(int x, int y)
 {
     this->tiny_bubbles.clear();
+    this->simulatedBoard = this->board;
     this->touchBubble(x, y, true);
     this->moveTinyBubbles(true);
 

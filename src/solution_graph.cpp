@@ -1,5 +1,7 @@
 #include "solution_graph.h"
 
+#include <utility>
+
 
 
 vector<pair<int,int>> Tree::DFS(Board starting_board){
@@ -17,12 +19,12 @@ vector<pair<int, int>> Tree::BFS(Board starting_board) {
     vector<pair<int, int>> moves;
 
     queue<Node*> queue;
-    Node* root = new Node(nullptr, starting_board);
-    this->root = root;
+    Node* start = new Node(nullptr, std::move(starting_board));
+    this->root = start;
 
-    Node* currentNode, *solutionNode;
+    Node* currentNode, *solutionNode = nullptr;
 
-    queue.push(root);
+    queue.push(start);
 
     bool finished = false;
 
@@ -31,14 +33,25 @@ vector<pair<int, int>> Tree::BFS(Board starting_board) {
        Board currentBoard = currentNode->board;
        queue.pop();
        vector<pair<int, int>> plays = currentBoard.possiblePlays();
-       for(size_t i = 0; i < plays.size(); i++){
-           Board newBoard = Board(currentBoard.simulatePlayerTouch(plays.at(i).first, plays.at(i).second));
+
+       cout << "Current Board " << endl;
+       currentBoard.display();
+
+       cout << "Plays" << endl;
+       for(int i = 0; i < plays.size(); i++){
+           cout << plays.at(i).first << " " << plays.at(i).second << endl;
+       }
+       cout << "----------------------------------------------------" << endl;
+
+       for(auto & play : plays){
+           Board newBoard = Board(currentBoard.simulatePlayerTouch(play.first, play.second));
            Node* newNode = new Node(currentNode, newBoard);
            currentNode->children.push_back(newNode);
-           newNode->touchedBubble = plays.at(i);
+           newNode->touchedBubble = play;
            if(newBoard.isSolution()){
                solutionNode = newNode;
                finished = true;
+               break;
            } else{
                queue.push(newNode);
            }
