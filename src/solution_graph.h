@@ -6,33 +6,24 @@
 
 using namespace std;
 
-class Edge;
+class Node{
 
-class Vertex {
     public:
-        Board vertexBoard;
-        vector<Edge> adj;
-        Vertex *path = NULL;
+        int depth;
+        Board board;
+        pair<int,int> touchedBubble;
+        Node *parent;
+        vector<Node *> children;
 
-        Vertex(Board vBoard);
-        void addEdge(int bubble_x, int bubble_y, Vertex* result);    
+        Node(Node *parent) : parent(parent)
+        {
+        }
 
-};
+        void add_child(Node *child) { children.push_back(child); }
 
-class Edge {
-    public:
-        Vertex *dest;
-        int bubble_x, bubble_y;
-
-        Edge(int x, int y, Vertex* r); 
-};
-
-class SolGraph {
-    public:
-        vector<Vertex*> vertexSet;
-
-        void addVertex(Vertex *in);
         vector<pair<int,int>> DFS(Board starting_board);
+        vector<pair<int,int>> BFS(Board starting_board);
 };
+
 
 #endif
