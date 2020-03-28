@@ -35,8 +35,9 @@ class Tree{
         Node *root;
 
         vector<pair<int,int>> DFS(Board starting_board, int max_moves);
-        vector<pair<int,int>> BFS(Board starting_board, int max_moves);
         Node* DFS_helper(Node* current_node, int max_moves, int depth);
+        vector<pair<int,int>> BFS(Board starting_board, int max_moves);
+        vector<pair<int, int>> greedy(Board starting_board, int max_moves);
 };
 
 

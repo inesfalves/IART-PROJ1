@@ -250,3 +250,44 @@ vector<vector<int>> Board::simulatePlayerTouch(int x, int y)
 
     return this->simulatedBoard;
 }
+
+int Board::getBoardTotalScore(){
+
+    int total = 0;
+
+    for (int i = 0; i < 6; i++)
+    {
+        for (int j = 0; j < 5; j++)
+        {
+            total += this->board.at(i).at(j);
+        }
+    }
+
+    return total;
+}
+
+float Board::getRedPercentage(){
+
+    float reds = 0;
+    float total = 0;
+    int bubble;
+
+    for (int i = 0; i < 6; i++)
+    {
+        for (int j = 0; j < 5; j++)
+        {
+            bubble = this->board.at(i).at(j);
+            if(bubble != 0){
+                total += 1.0f;
+            }
+            if(bubble == 1){
+                reds += 1.0f;
+            }
+        }
+    }
+    
+    if(!total)
+        return 1;
+
+    return reds/total;
+}

@@ -41,6 +41,8 @@ public:
     pair<int, int> getNextBubble(pair<int, int> bubble_coords);
     vector<vector<int>> simulatePlayerTouch(int x, int y);
     vector<pair<int, int>> possiblePlays();
+    int getBoardTotalScore();
+    float getRedPercentage();
 };
 
 #endif
