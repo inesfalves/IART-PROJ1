@@ -169,7 +169,7 @@ void handleInformedAlgorithm(int algorithm, vector<vector<int>> playerChooseBoar
         Tree *tree = new Tree();
         vector<pair<int, int>> vec;
         //definir o numero de toques para cada board
-        vec = tree->greedy(playerChooseBoard, 2);
+        vec = tree->greedy(playerChooseBoard, 3);
         for (auto &i : vec)
         {
             cout << i.first << "   " << i.second << endl;

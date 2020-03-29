@@ -284,7 +284,7 @@ Node *Tree::greedy_helper(Node *current_node, int max_moves, int depth)
     sort(nodes.begin(), nodes.end(), compareNodesGreedy);
 
     for (size_t i = 0; i < nodes.size(); i++){
-        Node *final_node = greedy_helper(nodes.at(0), max_moves, nodes.at(0)->depth);
+        Node *final_node = greedy_helper(nodes.at(i), max_moves, nodes.at(i)->depth);
         if (final_node != nullptr)
         {
             return final_node;
