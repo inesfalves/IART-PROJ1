@@ -21,4 +21,6 @@ void handleInformedAlgorithm(int algorithm, vector<vector<int>> playerChooseBoar
 /* Validates user input */
 void inputHandler(int &input);
 
+void printMove(Board board, vector<pair<int,int>> moveList);
+
 #endif

@@ -128,30 +128,30 @@ void start()
 
 void handleUninformedAlgorithm(int algorithm, vector<vector<int>> playerChooseBoard)
 {
+    Board chosenBoard = Board(playerChooseBoard);
+
     switch (algorithm)
     {
     case 1:
         {
         Tree *tree = new Tree();
-        vector<pair<int, int>> vec;
+        vector<pair<int, int>> moveList;
         //definir o numero de toques para cada board
-        vec = tree->BFS(playerChooseBoard, 3);
-        for (auto &i : vec)
-        {
-            cout << i.first << "   " << i.second << endl;
-        }
+        moveList = tree->BFS(chosenBoard, 3);
+
+        printMove(chosenBoard, moveList);
+
         break;
         }
     case 2:
         {
         Tree *tree = new Tree();
-        vector<pair<int, int>> vec;
+        vector<pair<int, int>> moveList;
         //definir o numero de toques para cada board
-        vec = tree->DFS(playerChooseBoard, 2);
-        for (auto &i : vec)
-        {
-            cout << i.first << "   " << i.second << endl;
-        }
+        moveList = tree->DFS(chosenBoard, 3);
+
+        printMove(chosenBoard, moveList);
+
         break;
         }
     case 3:
@@ -192,4 +192,33 @@ void inputHandler(int &input){
 	}
 	cin.clear();
 	cin.ignore(INT_MAX, '\n');
+}
+
+void printMove(Board board, vector<pair<int,int>> moveList){
+
+    if(moveList.empty()){
+        cout << "Level can't be complete within the move limit :(" << endl;
+        cout << endl << "Initial Board:" << endl;
+        board.display();
+        return;
+    }else if(moveList.at(0).first == -1 && moveList.at(0).second == -1){
+        cout << "Level can't be complete within the move limit :(" << endl;
+        cout << endl << "Initial Board:" << endl;
+        board.display();
+        return;
+    }
+
+    for (size_t i = 0; i < moveList.size(); i++)
+    {
+        cout << "MOVE " << i+1 << ": "  << "x=" <<  moveList.at(i).first << " y=" << moveList.at(i).second << endl;
+    }
+
+    cout << endl << "Initial Board:" << endl;
+    board.display();
+
+    for (size_t i = 0; i < moveList.size(); i++)
+    {
+        cout << "MOVE " << i+1 << endl;
+        board.playerTouch(moveList.at(i).first, moveList.at(i).second);
+    }
 }
