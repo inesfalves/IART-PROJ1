@@ -147,7 +147,7 @@ void handleUninformedAlgorithm(int algorithm, vector<vector<int>> playerChooseBo
         Tree *tree = new Tree();
         vector<pair<int, int>> vec;
         //definir o numero de toques para cada board
-        vec = tree->DFS(playerChooseBoard, 3);
+        vec = tree->DFS(playerChooseBoard, 2);
         for (auto &i : vec)
         {
             cout << i.first << "   " << i.second << endl;
@@ -165,8 +165,17 @@ void handleInformedAlgorithm(int algorithm, vector<vector<int>> playerChooseBoar
     switch (algorithm)
     {
     case 1:
-        cout << "Not implemented yet :(" << endl;
+    {
+        Tree *tree = new Tree();
+        vector<pair<int, int>> vec;
+        //definir o numero de toques para cada board
+        vec = tree->greedy(playerChooseBoard, 2);
+        for (auto &i : vec)
+        {
+            cout << i.first << "   " << i.second << endl;
+        }
         break;
+    }
     case 2:
         cout << "Not implemented yet :(" << endl;
         break;

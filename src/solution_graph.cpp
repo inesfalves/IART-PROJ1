@@ -5,10 +5,6 @@
 
 bool compareNodesGreedy(Node *N1, Node *N2){
 
-    if(N1->depth != N2->depth){
-        return N1->depth > N2->depth;
-    }
-
     Board b1 = N1->board; 
     Board b2 = N2->board;
 
@@ -23,6 +19,7 @@ vector<pair<int, int>> Tree::DFS(Board starting_board, int max_moves)
     this->root = new Node(nullptr, std::move(starting_board));
     vector<pair<int, int>> possible_plays = this->root->board.possiblePlays();
     vector<pair<int, int>> solution;
+
     for (size_t i = 0; i < possible_plays.size(); i++)
     {
         Node *final_node = DFS_helper(this->root, max_moves, 0);
@@ -146,9 +143,8 @@ vector<pair<int, int>> Tree::BFS(Board starting_board, int max_moves)
     return moves;
 }
 
-vector<pair<int, int>> Tree::greedy(Board starting_board, int max_moves){
+/*vector<pair<int, int>> Tree::greedy(Board starting_board, int max_moves){
     vector<pair<int, int>> moves;
-    int max_depth = max_moves - 1;
 
     vector<Node *> queue;
     Node *start = new Node(nullptr, std::move(starting_board));
@@ -164,16 +160,25 @@ vector<pair<int, int>> Tree::greedy(Board starting_board, int max_moves){
         currentNode = queue.at(0);
         Board currentBoard = currentNode->board;
 
+        vector<Node*> tmp_queue;
         int current_depth = currentNode->depth;
-        if(current_depth > max_depth){
-            while(!queue.empty() && queue.at(0)->depth == current_depth){
-                queue.erase(queue.begin());
+        if(current_depth >= max_moves){
+            cout << "aaa" << endl;
+            for(int i=0; i<queue.size(); i++){
+                if(queue.at(i)->depth >= max_moves){
+                    tmp_queue.push_back(queue.at(i));
+                }
             }
+            cout << "ccccc" << endl;
         }
 
-        queue.erase(queue.begin());
-        vector<pair<int, int>> plays = currentBoard.possiblePlays();
+        queue = tmp_queue;
 
+        cout << queue.size() << endl;
+
+        if(queue.size()!=0)
+            queue.erase(queue.begin());
+        vector<pair<int, int>> plays = currentBoard.possiblePlays();
         for (auto &play : plays)
         {
             Board newBoard = Board(currentBoard.simulatePlayerTouch(play.first, play.second));
@@ -183,8 +188,10 @@ vector<pair<int, int>> Tree::greedy(Board starting_board, int max_moves){
 
             if (newBoard.isSolution())
             {
+                cout << "bbb" << endl;
                 solutionNode = newNode;
                 finished = true;
+
                 break;
             }
             else
@@ -214,4 +221,75 @@ vector<pair<int, int>> Tree::greedy(Board starting_board, int max_moves){
     reverse(moves.begin(), moves.end());
 
     return moves;
+}*/
+
+vector<pair<int, int>> Tree::greedy(Board starting_board, int max_moves){
+    this->root = new Node(nullptr, std::move(starting_board));
+    vector<pair<int, int>> possible_plays = this->root->board.possiblePlays();
+    vector<pair<int, int>> solution;
+
+    vector<Node *> nodes;
+
+    for (size_t i = 0; i < possible_plays.size(); i++)
+    {   
+        pair<int,int> possible_play = possible_plays.at(i);
+        this->root->board.simulatePlayerTouch(possible_play.first, possible_play.second);
+        Node *new_node = new Node(this->root, this->root->board.getSimulatedBoard());
+        new_node->touchedBubble = possible_play;
+        new_node->depth = 1;
+        nodes.push_back(new_node);
+    }
+
+    sort(nodes.begin(), nodes.end(), compareNodesGreedy);
+
+    for (size_t i = 0; i < nodes.size(); i++){
+        Node *final_node = greedy_helper(this->root, max_moves, 0);
+        if (final_node != nullptr)
+        {
+            while (final_node->parent != nullptr)
+            {
+                solution.push_back(final_node->touchedBubble);
+                final_node = final_node->parent;
+            }
+            reverse(solution.begin(), solution.end());
+            return solution;
+        }
+    }
+
+    return solution;
+}
+
+Node *Tree::greedy_helper(Node *current_node, int max_moves, int depth)
+{
+    if (current_node->board.isSolution())
+    {
+        return current_node;
+    }
+    else if (depth >= max_moves)
+    {
+        return nullptr;
+    }
+    vector<pair<int, int>> possible_plays = this->root->board.possiblePlays();
+    vector<Node *> nodes;
+    for (size_t i = 0; i < possible_plays.size(); i++)
+    {   
+        pair<int,int> possible_play = possible_plays.at(i);
+        current_node->board.simulatePlayerTouch(possible_play.first, possible_play.second);
+        Node *new_node = new Node(current_node, current_node->board.getSimulatedBoard());
+        new_node->touchedBubble = possible_play;
+        new_node->depth = depth + 1;
+        nodes.push_back(new_node);
+    }
+
+    sort(nodes.begin(), nodes.end(), compareNodesGreedy);
+
+    for (size_t i = 0; i < nodes.size(); i++){
+        Node *final_node = greedy_helper(nodes.at(0), max_moves, nodes.at(0)->depth);
+        if (final_node != nullptr)
+        {
+            return final_node;
+        }
+    }
+    
+    return nullptr;
 }
