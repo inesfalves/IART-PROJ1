@@ -126,22 +126,25 @@ void handleUninformedAlgorithm(int algorithm, vector<vector<int>> playerChooseBo
 
 void handleInformedAlgorithm(int algorithm, vector<vector<int>> playerChooseBoard)
 {
+    Board chosenBoard = Board(playerChooseBoard);
+
     switch (algorithm)
     {
     case 1:
     {
         Tree *tree = new Tree();
-        vector<pair<int, int>> vec;
+        vector<pair<int, int>> moveList;
         //definir o numero de toques para cada board
-        vec = tree->greedy(playerChooseBoard, 2);
-        for (auto &i : vec)
-        {
-            cout << i.first << "   " << i.second << endl;
-        }
+        moveList = tree->greedy(chosenBoard, 2);
+        printMove(chosenBoard, moveList);
         break;
     }
     case 2:
-        cout << "Not implemented yet :(" << endl;
+        Tree *tree = new Tree();
+        vector<pair<int, int>> moveList;
+        //definir o numero de toques para cada board
+        moveList = tree->AStar(chosenBoard, 3);
+        printMove(chosenBoard, moveList);
         break;
     }
 }
