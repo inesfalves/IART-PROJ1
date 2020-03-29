@@ -109,7 +109,7 @@ vector<pair<int, int>> Tree::BFS(Board starting_board, int max_moves)
         {
             Board newBoard = Board(currentBoard.simulatePlayerTouch(play.first, play.second));
             Node *newNode = new Node(currentNode, newBoard);
-            currentNode->children.push_back(newNode);
+            currentNode->add_child(newNode);
             newNode->touchedBubble = play;
             if (newBoard.isSolution())
             {
@@ -292,4 +292,100 @@ Node *Tree::greedy_helper(Node *current_node, int max_moves, int depth)
     }
     
     return nullptr;
+}
+
+bool compareNodesAStar(Node *N1, Node *N2){
+
+    Board b1 = N1->board;
+    Board b2 = N2->board;
+
+
+    return b1.costCalculation() < b2.costCalculation();
+}
+
+queue<Node *> sortQueue(queue<Node *> q){
+
+    vector<Node *> helperVector;
+    queue<Node *> sortedQueue;
+
+    while(!q.empty()){
+        helperVector.push_back(q.front());
+        q.pop();
+    }
+
+    sort(helperVector.begin(), helperVector.end(), compareNodesAStar);
+
+    for(auto i : helperVector){
+        i->board.display();
+        sortedQueue.push(i);
+    }
+
+    return sortedQueue;
+}
+
+
+vector<pair<int, int>> Tree::AStar(Board starting_board, int max_moves)
+{
+    vector<pair<int, int>> moves;
+    int max_depth = max_moves - 1;
+
+    queue<Node *> queue;
+    Node *start = new Node(nullptr, std::move(starting_board));
+    this->root = start;
+
+    Node *currentNode, *solutionNode = nullptr;
+
+    queue.push(start);
+
+    bool finished = false;
+
+    while (!queue.empty() && !finished) {
+        queue = sortQueue(queue);
+        currentNode = queue.front();
+        Board currentBoard = currentNode->board;
+        queue.pop();
+        vector<pair<int, int>> plays = currentBoard.possiblePlays();
+
+        if(currentNode->depth > max_depth){
+            pair<int,int> impossible(-1,-1);
+            moves.push_back(impossible);
+            return moves;
+        }
+
+        for (auto &play : plays)
+        {
+            Board newBoard = Board(currentBoard.simulatePlayerTouch(play.first, play.second));
+            Node *newNode = new Node(currentNode, newBoard);
+            currentNode->add_child(newNode);
+            newNode->touchedBubble = play;
+            if (newBoard.isSolution())
+            {
+                solutionNode = newNode;
+                finished = true;
+                break;
+            }
+            else
+            {
+                queue.push(newNode);
+            }
+        }
+    }
+
+    bool gotMoves = false;
+    while (!gotMoves)
+    {
+        if (solutionNode->parent != nullptr)
+        {
+            moves.push_back(solutionNode->touchedBubble);
+            solutionNode = solutionNode->parent;
+        }
+        else
+        {
+            gotMoves = true;
+        }
+    }
+
+    reverse(moves.begin(), moves.end());
+
+    return moves;
 }

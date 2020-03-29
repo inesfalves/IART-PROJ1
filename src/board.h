@@ -43,6 +43,7 @@ public:
     vector<pair<int, int>> possiblePlays();
     int getBoardTotalScore();
     float getRedPercentage();
+    int costCalculation();
 };
 
 #endif

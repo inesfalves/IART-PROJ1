@@ -285,9 +285,44 @@ float Board::getRedPercentage(){
             }
         }
     }
-    
+
     if(!total)
         return 1;
 
     return reds/total;
+}
+
+int Board::costCalculation() {
+
+    int redCount = 0;
+
+    for(auto & i : this->board){
+        for(size_t j = 0; j < i.size(); j++){
+            if(i.at(j) == 1){
+                redCount++;
+            }
+            if(i.at(j) != 1){
+                redCount = 0;
+            }
+            if(redCount > 1){
+                return 0;
+            }
+        }
+    }
+
+    for(size_t i = 0; i < this->board.at(0).size(); i++){
+        for(auto & j : this->board){
+            if(j.at(i) == 1){
+                redCount++;
+            }
+            if(j.at(i) != 1){
+                redCount = 0;
+            }
+            if(redCount > 1){
+                return 0;
+            }
+        }
+    }
+
+    return 1;
 }
