@@ -6,6 +6,8 @@
 #include "solution_graph.h"
 #include <iostream>
 #include <vector>
+#include <fstream>
+#include <sstream>
 #include <bits/stdc++.h>
 
 using namespace std;
@@ -15,7 +17,7 @@ vector<vector<int>> chooseLevelForPlayer(int playerChooseLevel);
 /* Starts the program menu */
 void start();
 /* Handles the uninformed search strategies */
-void handleUninformedAlgorithm(int algorithm, vector<vector<int>> playerChooseBoard);
+void handleUninformedAlgorithm(int algorithm, vector<vector<int>> playerChooseBoard, int maxMoves);
 /* Handles the informed search strategies */
 void handleInformedAlgorithm(int algorithm, vector<vector<int>> playerChooseBoard);
 /* Validates user input */

@@ -109,7 +109,7 @@ vector<pair<int, int>> Tree::BFS(Board starting_board, int max_moves)
         {
             Board newBoard = Board(currentBoard.simulatePlayerTouch(play.first, play.second));
             Node *newNode = new Node(currentNode, newBoard);
-            currentNode->children.push_back(newNode);
+            currentNode->add_child(newNode);
             newNode->touchedBubble = play;
             if (newBoard.isSolution())
             {
@@ -142,86 +142,6 @@ vector<pair<int, int>> Tree::BFS(Board starting_board, int max_moves)
 
     return moves;
 }
-
-/*vector<pair<int, int>> Tree::greedy(Board starting_board, int max_moves){
-    vector<pair<int, int>> moves;
-
-    vector<Node *> queue;
-    Node *start = new Node(nullptr, std::move(starting_board));
-    this->root = start;
-
-    Node *currentNode, *solutionNode = nullptr;
-
-    queue.push_back(start);
-
-    bool finished = false;
-
-    while (!queue.empty() && !finished) {
-        currentNode = queue.at(0);
-        Board currentBoard = currentNode->board;
-
-        vector<Node*> tmp_queue;
-        int current_depth = currentNode->depth;
-        if(current_depth >= max_moves){
-            cout << "aaa" << endl;
-            for(int i=0; i<queue.size(); i++){
-                if(queue.at(i)->depth >= max_moves){
-                    tmp_queue.push_back(queue.at(i));
-                }
-            }
-            cout << "ccccc" << endl;
-        }
-
-        queue = tmp_queue;
-
-        cout << queue.size() << endl;
-
-        if(queue.size()!=0)
-            queue.erase(queue.begin());
-        vector<pair<int, int>> plays = currentBoard.possiblePlays();
-        for (auto &play : plays)
-        {
-            Board newBoard = Board(currentBoard.simulatePlayerTouch(play.first, play.second));
-            Node *newNode = new Node(currentNode, newBoard);
-            currentNode->children.push_back(newNode);
-            newNode->touchedBubble = play;
-
-            if (newBoard.isSolution())
-            {
-                cout << "bbb" << endl;
-                solutionNode = newNode;
-                finished = true;
-
-                break;
-            }
-            else
-            {
-                queue.push_back(newNode);
-            }
-        }
-        
-        sort(queue.begin(), queue.end(), compareNodesGreedy);
-
-    }
-
-    bool gotMoves = false;
-    while (!gotMoves)
-    {
-        if (solutionNode->parent != nullptr)
-        {
-            moves.push_back(solutionNode->touchedBubble);
-            solutionNode = solutionNode->parent;
-        }
-        else
-        {
-            gotMoves = true;
-        }
-    }
-
-    reverse(moves.begin(), moves.end());
-
-    return moves;
-}*/
 
 vector<pair<int, int>> Tree::greedy(Board starting_board, int max_moves){
     this->root = new Node(nullptr, std::move(starting_board));
@@ -292,4 +212,105 @@ Node *Tree::greedy_helper(Node *current_node, int max_moves, int depth)
     }
     
     return nullptr;
+}
+
+bool compareNodesAStar(Node *N1, Node *N2){
+
+    Board b1 = N1->board;
+    Board b2 = N2->board;
+
+
+    return (b1.costCalculation()+N1->depth) < (b2.costCalculation()+N2->depth);
+}
+
+queue<Node *> sortQueue(queue<Node *> q){
+
+    vector<Node *> helperVector;
+    queue<Node *> sortedQueue;
+
+    while(!q.empty()){
+        helperVector.push_back(q.front());
+        q.pop();
+    }
+
+    sort(helperVector.begin(), helperVector.end(), compareNodesAStar);
+
+    for(auto i : helperVector){
+        sortedQueue.push(i);
+    }
+
+    return sortedQueue;
+}
+
+
+vector<pair<int, int>> Tree::AStar(Board starting_board, int max_moves)
+{
+    vector<pair<int, int>> moves;
+    int max_depth = max_moves - 1;
+
+    queue<Node *> queue;
+    Node *start = new Node(nullptr, std::move(starting_board));
+    this->root = start;
+
+    Node *currentNode, *solutionNode = nullptr;
+
+    queue.push(start);
+
+    bool finished = false;
+
+    while (!queue.empty() && !finished) {
+        queue = sortQueue(queue);
+        currentNode = queue.front();
+        Board currentBoard = currentNode->board;
+        queue.pop();
+        vector<pair<int, int>> plays = currentBoard.possiblePlays();
+
+        if(currentNode->depth > max_depth){
+            cout << "OLAAAA" << endl;
+            cout << queue.size();
+            continue;
+        }
+
+        for (auto &play : plays)
+        {
+            Board newBoard = Board(currentBoard.simulatePlayerTouch(play.first, play.second));
+            Node *newNode = new Node(currentNode, newBoard);
+            currentNode->add_child(newNode);
+            newNode->touchedBubble = play;
+            if (newBoard.isSolution())
+            {
+                solutionNode = newNode;
+                finished = true;
+                break;
+            }
+            else
+            {
+                queue.push(newNode);
+            }
+        }
+    }
+
+    if(solutionNode == nullptr){
+        pair<int,int> impossible(-1,-1);
+        moves.push_back(impossible);
+        return moves;
+    }
+
+    bool gotMoves = false;
+    while (!gotMoves)
+    {
+        if (solutionNode->parent != nullptr)
+        {
+            moves.push_back(solutionNode->touchedBubble);
+            solutionNode = solutionNode->parent;
+        }
+        else
+        {
+            gotMoves = true;
+        }
+    }
+
+    reverse(moves.begin(), moves.end());
+
+    return moves;
 }
