@@ -1,11 +1,5 @@
 #include "menu.h"
 
-//é diferente em ios lol
-//vector<vector<int>> level15 = {{2,4,1,0,4}, {1,2,0,2,1}, {2,1,1,2,2}, {2,3,1,2,0}, {0,3,4,2,4}, {3,1,1,3,2}};
-
-//é diferente em ios??
-//vector<vector<int>> level19 = {{0,4,0,1,3}, {3,4,1,2,4}, {3,3,2,2,1}, {2,2,1,4,1}, {2,3,1,3,3}, {2,1,1,3,3}};
-
 int getFileInfo(string filename, vector<vector<int>> *board)
 {
     ifstream file;
@@ -38,13 +32,19 @@ int getFileInfo(string filename, vector<vector<int>> *board)
     return maxMoves;
 }
 
-
 void start()
 {
-    int option, algorithm, maxMoves;
+    int gameOption, option, algorithm, maxMoves;
     vector<vector<int>> playerChooseBoard;
 
-    cout << "Welcome to Bubble Blast! Choose a level from 1 to 20!" << endl;
+    cout << "Welcome to Bubble Blast! Do you want to play or check a search strategy?" << endl;
+    cout << "1. I want to play the game!" << endl;
+    cout << "2. Show me search algorithms!" << endl;
+    cout << "Choose:";
+    inputHandler(gameOption);
+
+    cout << "-----------------------------------------------" << endl;
+    cout << "Choose a level from 1 to 20!" << endl;
     cout << "Level:";
     inputHandler(option);
     string levelOption = "levels/level";
@@ -53,12 +53,20 @@ void start()
     levelOption.append(".txt");
     maxMoves = getFileInfo(levelOption, &playerChooseBoard);
 
-    cout << "----------------------------------" << endl;
-    cout << "Choose a type of search strategy:" << endl;
-    cout << "1. Uninformed Search" << endl;
-    cout << "2. Informed (Heuristic) Search" << endl;
-    cout << "Option:";
-    inputHandler(option);
+    switch (gameOption)
+    {
+    case 1:
+        cout << "let's play xd" << endl;
+        break;
+    case 2:
+        cout << "----------------------------------" << endl;
+        cout << "Choose a type of search strategy:" << endl;
+        cout << "1. Uninformed Search" << endl;
+        cout << "2. Informed (Heuristic) Search" << endl;
+        cout << "Option:";
+        inputHandler(option);
+        break;
+    }
 
     switch (option)
     {
