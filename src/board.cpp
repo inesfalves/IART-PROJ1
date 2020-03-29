@@ -301,7 +301,7 @@ int Board::costCalculation() {
             if(i.at(j) == 1){
                 redCount++;
             }
-            if(i.at(j) != 1){
+            if(i.at(j) > 1){
                 redCount = 0;
             }
             if(redCount > 1){
@@ -315,7 +315,7 @@ int Board::costCalculation() {
             if(j.at(i) == 1){
                 redCount++;
             }
-            if(j.at(i) != 1){
+            if(j.at(i) > 1){
                 redCount = 0;
             }
             if(redCount > 1){

@@ -300,7 +300,7 @@ bool compareNodesAStar(Node *N1, Node *N2){
     Board b2 = N2->board;
 
 
-    return b1.costCalculation() < b2.costCalculation();
+    return (b1.costCalculation()+N1->depth) < (b2.costCalculation()+N2->depth);
 }
 
 queue<Node *> sortQueue(queue<Node *> q){
@@ -316,7 +316,6 @@ queue<Node *> sortQueue(queue<Node *> q){
     sort(helperVector.begin(), helperVector.end(), compareNodesAStar);
 
     for(auto i : helperVector){
-        i->board.display();
         sortedQueue.push(i);
     }
 
@@ -347,9 +346,9 @@ vector<pair<int, int>> Tree::AStar(Board starting_board, int max_moves)
         vector<pair<int, int>> plays = currentBoard.possiblePlays();
 
         if(currentNode->depth > max_depth){
-            pair<int,int> impossible(-1,-1);
-            moves.push_back(impossible);
-            return moves;
+            cout << "OLAAAA" << endl;
+            cout << queue.size();
+            continue;
         }
 
         for (auto &play : plays)
@@ -369,6 +368,12 @@ vector<pair<int, int>> Tree::AStar(Board starting_board, int max_moves)
                 queue.push(newNode);
             }
         }
+    }
+
+    if(solutionNode == nullptr){
+        pair<int,int> impossible(-1,-1);
+        moves.push_back(impossible);
+        return moves;
     }
 
     bool gotMoves = false;
