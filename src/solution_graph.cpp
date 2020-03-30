@@ -244,14 +244,14 @@ queue<Node *> sortQueue(queue<Node *> q)
 
     sort(helperVector.begin(), helperVector.end(), compareNodesAStar);
 
-    cout << "Pre" << endl;
+    //cout << "Pre" << endl;
     for (auto i : helperVector)
     {
-        float val = (float)i->board.cost + (float)i->depth + i->getGreedyValue();
-        cout << val << " (" << i->board.cost << " + " << i->depth << " + " << i->getGreedyValue() << ");  ";
+        //float val = (float)i->board.cost + (float)i->depth + i->getGreedyValue();
+        //cout << val << " (" << i->board.cost << " + " << i->depth << " + " << i->getGreedyValue() << ");  ";
         sortedQueue.push(i);
     }
-    cout << "Pos" << endl;
+    //cout << "Pos" << endl;
 
     return sortedQueue;
 }
@@ -281,7 +281,7 @@ vector<pair<int, int>> Tree::AStar(Board starting_board, int max_moves)
 
         if (currentNode->depth > max_depth)
         {
-            cout << queue.size() << " ";
+            //cout << queue.size() << " ";
             continue;
         }
 
