@@ -368,6 +368,53 @@ int Board::costCalculation()
         }
     }
 
-    this->cost = 1;
-    return 1;
+
+    bool firstElementFound = false;
+    bool foundLine = false;
+    int colIndex = -1;
+    vector<int> indexes;
+
+    for (auto &i : this->board)
+    {
+        for (size_t j = 0; j < i.size(); j++)
+        {
+            if(i.at(j) == 0){
+                continue;
+            }else{
+                if(foundLine){
+                    if(colIndex == -1){
+                        if(find(indexes.begin(), indexes.end(), j) != indexes.end()){
+                            colIndex = j;
+                            indexes.clear();
+                            indexes.push_back(j);
+                        }else{
+                            this->cost = 1;
+                            return 1;
+                        }
+                    }else{
+                        if(colIndex != j){
+                            this->cost = 1;
+                            return 1;
+                        }
+                    }
+
+                }else{
+                    if(firstElementFound){
+                        foundLine = true;
+                        indexes.push_back(j);
+                    }else{
+                        firstElementFound = true;
+                        indexes.push_back(j);
+                    }
+                }
+
+            }
+
+
+        }
+        firstElementFound = false;
+    }
+
+    this->cost = 0;
+    return 0;
 }
