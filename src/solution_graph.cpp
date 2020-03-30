@@ -231,13 +231,13 @@ queue<Node *> sortQueue(queue<Node *> q){
 
     sort(helperVector.begin(), helperVector.end(), compareNodesAStar);
 
-    //cout << "Pre" << endl;
+    cout << "Pre" << endl;
     for(auto i : helperVector){
-      //  float val = (float)i->board.costCalculation() + (float)i->depth+ i->getGreedyValue();
-       // cout << val << " ";
+        float val = (float)i->board.costCalculation() + (float)i->depth+ i->getGreedyValue();
+        cout << val << " ";
         sortedQueue.push(i);
     }
-  //  cout << "Pos" << endl;
+    cout << "Pos" << endl;
 
     return sortedQueue;
 }
