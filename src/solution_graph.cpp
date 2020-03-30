@@ -217,8 +217,10 @@ bool compareNodesAStar(Node *N1, Node *N2){
     Board b1 = N1->board;
     Board b2 = N2->board;
 
+    double b1Value = b1.costCalculation()+N1->depth+b1.getBoardTotalScore() + (1.0-b1.getRedPercentage());
+    double b2Value = b2.costCalculation()+N2->depth+b2.getBoardTotalScore() + (1.0-b2.getRedPercentage());
 
-    return (b1.costCalculation()+N1->depth) < (b2.costCalculation()+N2->depth);
+    return b1Value < b2Value;
 }
 
 queue<Node *> sortQueue(queue<Node *> q){
@@ -233,7 +235,10 @@ queue<Node *> sortQueue(queue<Node *> q){
 
     sort(helperVector.begin(), helperVector.end(), compareNodesAStar);
 
+   // cout << endl << "Pre" << endl;
     for(auto i : helperVector){
+     //   double val = i->board.costCalculation()+i->depth+i->board.getBoardTotalScore() + (1.0-i->board.getRedPercentage());
+       // cout << val << " ";
         sortedQueue.push(i);
     }
 
@@ -264,7 +269,6 @@ vector<pair<int, int>> Tree::AStar(Board starting_board, int max_moves)
         vector<pair<int, int>> plays = currentBoard.possiblePlays();
 
         if(currentNode->depth > max_depth){
-            cout << "OLAAAA" << endl;
             cout << queue.size();
             continue;
         }

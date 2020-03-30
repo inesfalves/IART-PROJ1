@@ -19,10 +19,12 @@ void start();
 /* Handles the uninformed search strategies */
 void handleUninformedAlgorithm(int algorithm, vector<vector<int>> playerChooseBoard, int maxMoves);
 /* Handles the informed search strategies */
-void handleInformedAlgorithm(int algorithm, vector<vector<int>> playerChooseBoard);
+void handleInformedAlgorithm(int algorithm, vector<vector<int>> playerChooseBoard, int maxMoves);
 /* Validates user input */
 void inputHandler(int &input);
-
+/* Prints a move */
 void printMove(Board board, vector<pair<int,int>> moveList);
+/* Used for playing the game */
+void playGamer(vector<vector<int>> playerChooseBoard, int maxMoves);
 
 #endif

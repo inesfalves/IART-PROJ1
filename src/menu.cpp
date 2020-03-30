@@ -42,11 +42,21 @@ void start()
     cout << "2. Show me search algorithms!" << endl;
     cout << "Choose:";
     inputHandler(gameOption);
+    while (gameOption != 1 && gameOption != 2)
+    {
+        cout << "Invalid input. Please try again: " << endl;
+        inputHandler(gameOption);
+    }
 
     cout << "-----------------------------------------------" << endl;
     cout << "Choose a level from 1 to 20!" << endl;
     cout << "Level:";
     inputHandler(option);
+    while (option < 1 && option > 20)
+    {
+        cout << "Invalid input. Please try again: " << endl;
+        inputHandler(gameOption);
+    }
     string levelOption = "levels/level";
     string optionString = to_string(option);
     levelOption.append(optionString);
@@ -56,8 +66,10 @@ void start()
     switch (gameOption)
     {
     case 1:
-        cout << "let's play xd" << endl;
-        break;
+        cout << "Let's play! Here's your starting board." << endl;
+        cout << "----------------------------------------" << endl;
+        playGamer(playerChooseBoard, maxMoves);
+        return;
     case 2:
         cout << "----------------------------------" << endl;
         cout << "Choose a type of search strategy:" << endl;
@@ -65,6 +77,11 @@ void start()
         cout << "2. Informed (Heuristic) Search" << endl;
         cout << "Option:";
         inputHandler(option);
+        while (option != 1 && option != 2)
+        {
+            cout << "Invalid input. Please try again: " << endl;
+            inputHandler(option);
+        }
         break;
     }
 
@@ -78,6 +95,11 @@ void start()
         cout << "3. Uniform-cost search" << endl;
         cout << "Option:";
         inputHandler(algorithm);
+        while (algorithm != 1 && algorithm != 2 && algorithm != 3)
+        {
+            cout << "Invalid input. Please try again: " << endl;
+            inputHandler(algorithm);
+        }
         handleUninformedAlgorithm(algorithm, playerChooseBoard, maxMoves);
         break;
 
@@ -88,7 +110,12 @@ void start()
         cout << "2. A* search" << endl;
         cout << "Option:";
         inputHandler(algorithm);
-        handleInformedAlgorithm(algorithm, playerChooseBoard);
+        while (algorithm != 1 && algorithm != 2)
+        {
+            cout << "Invalid input. Please try again: " << endl;
+            inputHandler(algorithm);
+        }
+        handleInformedAlgorithm(algorithm, playerChooseBoard, maxMoves);
         break;
     }
 }
@@ -124,7 +151,7 @@ void handleUninformedAlgorithm(int algorithm, vector<vector<int>> playerChooseBo
     }
 }
 
-void handleInformedAlgorithm(int algorithm, vector<vector<int>> playerChooseBoard)
+void handleInformedAlgorithm(int algorithm, vector<vector<int>> playerChooseBoard, int maxMoves)
 {
     Board chosenBoard = Board(playerChooseBoard);
 
@@ -134,16 +161,14 @@ void handleInformedAlgorithm(int algorithm, vector<vector<int>> playerChooseBoar
     {
         Tree *tree = new Tree();
         vector<pair<int, int>> moveList;
-        //definir o numero de toques para cada board
-        moveList = tree->greedy(chosenBoard, 3);
+        moveList = tree->greedy(chosenBoard, maxMoves);
         printMove(chosenBoard, moveList);
         break;
     }
     case 2:
         Tree *tree = new Tree();
         vector<pair<int, int>> moveList;
-        //definir o numero de toques para cada board
-        moveList = tree->AStar(chosenBoard, 3);
+        moveList = tree->AStar(chosenBoard, maxMoves);
         printMove(chosenBoard, moveList);
         break;
     }
@@ -151,7 +176,6 @@ void handleInformedAlgorithm(int algorithm, vector<vector<int>> playerChooseBoar
 
 void inputHandler(int &input)
 {
-
     while (!(cin >> input))
     {
         cin.clear();
@@ -196,5 +220,59 @@ void printMove(Board board, vector<pair<int, int>> moveList)
     {
         cout << "MOVE " << i + 1 << endl;
         board.playerTouch(moveList.at(i).first, moveList.at(i).second);
+    }
+}
+
+void playGamer(vector<vector<int>> playerChooseBoard, int maxMoves)
+{
+    Board chosenBoard = Board(playerChooseBoard);
+    chosenBoard.display();
+    int x, y;
+
+    cout << "You have " << maxMoves << " moves to complete this level! Good luck :)" << endl;
+    for (int i = 0; i <= maxMoves; i++)
+    {
+        if (i == maxMoves)
+        {
+            cout << "Level couldn't be completed within the move limit :( Please try again!" << endl;
+            break;
+        }
+
+        cout << "-----------------------------------------------" << endl;
+        cout << "Please choose what bubble you want to click on:" << endl;
+
+        bool invalid = false;
+        vector<pair<int, int>>::iterator it;
+        vector<pair<int, int>> plays;
+
+        do
+        {
+            do
+            {
+                if (invalid)
+                {
+                    cout << "Those moves are not possible! Try again please:" << endl;
+                }
+                cout << "x:";
+                inputHandler(x);
+                cout << "y:";
+                inputHandler(y);
+                invalid = true;
+            } while ((x >= 5 && y >= 6) || (x < 0 && y < 0));
+
+            plays = chosenBoard.possiblePlays();
+            pair<int, int> move(x, y);
+            it = find(plays.begin(), plays.end(), move);
+        } while (it == plays.end());
+
+        chosenBoard.playerTouch(x, y);
+
+        if (chosenBoard.isSolution())
+        {
+            cout << "You won! Congrats" << endl;
+            break;
+        }
+
+        cout << "You have " << maxMoves - i - 1 << " moves remaining :)" << endl;
     }
 }
