@@ -28,6 +28,8 @@ class Node{
         }
 
         void add_child(Node *child) { children.push_back(child); }
+
+        float getGreedyValue();
 };
 
 class Tree{
