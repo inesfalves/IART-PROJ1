@@ -20,6 +20,8 @@ public:
     Board();
     Board(vector<vector<int>>);
 
+    int cost = 0;
+
     vector<vector<int>> getBoard() const;
     vector<vector<int>> getSimulatedBoard() const;
     vector<vector<int>> getOldBoard() const;

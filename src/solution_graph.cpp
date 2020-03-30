@@ -215,15 +215,7 @@ Node *Tree::greedy_helper(Node *current_node, int max_moves, int depth)
 
 bool compareNodesAStar(Node *N1, Node *N2){
 
-    Board b1 = N1->board;
-    Board b2 = N2->board;
-
-    double b1Value = (float)b1.costCalculation() + (double)N1->depth+ N1->getGreedyValue()/4000;
-    double b2Value = (float)b2.costCalculation() + (double)N2->depth+ N2->getGreedyValue()/4000;
-
-    cout << "b1: " << b1Value << endl;
-    cout << "b2: " << b2Value << endl;
-    return b1Value < b2Value;
+    return (N1->getGreedyValue()/4000) < (N2->getGreedyValue()/4000);
 }
 
 queue<Node *> sortQueue(queue<Node *> q){
@@ -238,12 +230,13 @@ queue<Node *> sortQueue(queue<Node *> q){
 
     sort(helperVector.begin(), helperVector.end(), compareNodesAStar);
 
-   // cout << endl << "Pre" << endl;
+    //cout << "Pre" << endl;
     for(auto i : helperVector){
-     //   double val = i->board.costCalculation()+i->depth+i->board.getBoardTotalScore() + (1.0-i->board.getRedPercentage());
+      //  float val = (float)i->board.costCalculation() + (float)i->depth+ i->getGreedyValue();
        // cout << val << " ";
         sortedQueue.push(i);
     }
+  //  cout << "Pos" << endl;
 
     return sortedQueue;
 }
@@ -271,9 +264,8 @@ vector<pair<int, int>> Tree::AStar(Board starting_board, int max_moves)
         queue.pop();
         vector<pair<int, int>> plays = currentBoard.possiblePlays();
 
-        cout  << " ola";
         if(currentNode->depth > max_depth){
-            cout << queue.size() << " ";
+            cout << queue.size() << endl;
             continue;
         }
 

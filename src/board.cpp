@@ -19,6 +19,7 @@ Board::Board(vector<vector<int>> b)
             this->simulatedBoard.at(i).at(j) = b.at(i).at(j);
         }
     }
+    this->costCalculation();
 }
 
 void Board::display()
@@ -294,6 +295,11 @@ float Board::getRedPercentage(){
 
 int Board::costCalculation() {
 
+    if(this->getRedPercentage() == 1){
+        this->cost = 0;
+        return 0;
+    }
+
     int redCount = 0;
 
     for(auto & i : this->board){
@@ -305,6 +311,7 @@ int Board::costCalculation() {
                 redCount = 0;
             }
             if(redCount > 1){
+                this->cost = 0;
                 return 0;
             }
         }
@@ -319,10 +326,12 @@ int Board::costCalculation() {
                 redCount = 0;
             }
             if(redCount > 1){
+                this->cost = 0;
                 return 0;
             }
         }
     }
 
-    return 1;
+    this->cost = 0;
+    return 0;
 }
