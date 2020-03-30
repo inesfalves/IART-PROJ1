@@ -216,7 +216,7 @@ Node *Tree::greedy_helper(Node *current_node, int max_moves, int depth)
 
 bool compareNodesAStar(Node *N1, Node *N2){
 
-    return (N1->getGreedyValue()/4000) < (N2->getGreedyValue()/4000);
+    return (N1->getGreedyValue() + N1->board.cost + N1->depth) < (N2->getGreedyValue() + N2->board.cost + N2->depth);
 }
 
 queue<Node *> sortQueue(queue<Node *> q){
@@ -233,7 +233,7 @@ queue<Node *> sortQueue(queue<Node *> q){
 
     cout << "Pre" << endl;
     for(auto i : helperVector){
-        float val = i->getGreedyValue()/4000;
+        float val = (float)i->board.costCalculation() + (float)i->depth+ i->getGreedyValue();
         cout << val << " ";
         sortedQueue.push(i);
     }
