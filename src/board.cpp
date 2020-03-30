@@ -35,44 +35,53 @@ void Board::display()
     cout << endl;
 }
 
-vector<TinyBubble> Board::getTinyBubbles() const{
+vector<TinyBubble> Board::getTinyBubbles() const
+{
     return tiny_bubbles;
 }
 
-vector<TinyBubble> Board::getBurstingBubbles() const{
+vector<TinyBubble> Board::getBurstingBubbles() const
+{
     return bursting_bubbles;
 }
 
-void Board::setTinyBubbles(vector<TinyBubble> tiny_bubbles){
+void Board::setTinyBubbles(vector<TinyBubble> tiny_bubbles)
+{
     this->tiny_bubbles = tiny_bubbles;
 }
 
-void Board::setBurstingBubbles(vector<TinyBubble> bursting_bubbles){
+void Board::setBurstingBubbles(vector<TinyBubble> bursting_bubbles)
+{
     this->bursting_bubbles = bursting_bubbles;
 }
 
-
-vector<vector<int>> Board::getBoard() const{
+vector<vector<int>> Board::getBoard() const
+{
     return board;
 }
 
-vector<vector<int>> Board::getSimulatedBoard() const{
+vector<vector<int>> Board::getSimulatedBoard() const
+{
     return simulatedBoard;
 }
 
-vector<vector<int>> Board::getOldBoard() const{
+vector<vector<int>> Board::getOldBoard() const
+{
     return oldBoard;
 }
 
-void Board::setBoard(vector<vector<int>> board){
+void Board::setBoard(vector<vector<int>> board)
+{
     this->board = board;
 }
 
-void Board::setSimulatedBoard(vector<vector<int>> simulatedBoard){
+void Board::setSimulatedBoard(vector<vector<int>> simulatedBoard)
+{
     this->simulatedBoard = simulatedBoard;
 }
 
-void Board::setOldBoard(vector<vector<int>> oldBoard){
+void Board::setOldBoard(vector<vector<int>> oldBoard)
+{
     this->oldBoard = oldBoard;
 }
 
@@ -143,7 +152,8 @@ void Board::stepTinyBubbles(bool simulation)
         tiny.move();
         if (!(tiny.getXPosition() < 0 || tiny.getYPosition() < 0 || tiny.getXPosition() >= 5 || tiny.getYPosition() >= 6))
         {
-            if(simulation){
+            if (simulation)
+            {
                 if (this->simulatedBoard.at(tiny.getYPosition()).at(tiny.getXPosition()) > 0)
                 {
                     this->touchBubble(tiny.getXPosition(), tiny.getYPosition(), simulation);
@@ -152,7 +162,9 @@ void Board::stepTinyBubbles(bool simulation)
                 {
                     this->tiny_bubbles.push_back(tiny);
                 }
-            }else{
+            }
+            else
+            {
                 if (this->board.at(tiny.getYPosition()).at(tiny.getXPosition()) > 0)
                 {
                     this->touchBubble(tiny.getXPosition(), tiny.getYPosition(), simulation);
@@ -199,14 +211,18 @@ void Board::playerTouch(int x, int y)
     this->moveTinyBubbles(false);
 }
 
-vector<pair<int, int>>  Board::possiblePlays(){
+vector<pair<int, int>> Board::possiblePlays()
+{
 
     vector<pair<int, int>> plays;
 
-    for(size_t i = 0; i < this->board.size(); i++){
-        for(size_t j = 0; j < this->board.at(i).size(); j++){
-            if(this->board.at(i).at(j) != 0){
-                pair<int,int> position(j,i);
+    for (size_t i = 0; i < this->board.size(); i++)
+    {
+        for (size_t j = 0; j < this->board.at(i).size(); j++)
+        {
+            if (this->board.at(i).at(j) != 0)
+            {
+                pair<int, int> position(j, i);
                 plays.push_back(position);
             }
         }
@@ -215,10 +231,14 @@ vector<pair<int, int>>  Board::possiblePlays(){
     return plays;
 }
 
-bool Board::isSolution(){
-    for(auto & i : this->board){
-        for(int j : i){
-            if(j != 0){
+bool Board::isSolution()
+{
+    for (auto &i : this->board)
+    {
+        for (int j : i)
+        {
+            if (j != 0)
+            {
                 return false;
             }
         }
@@ -252,7 +272,8 @@ vector<vector<int>> Board::simulatePlayerTouch(int x, int y)
     return this->simulatedBoard;
 }
 
-int Board::getBoardTotalScore(){
+int Board::getBoardTotalScore()
+{
 
     int total = 0;
 
@@ -267,7 +288,8 @@ int Board::getBoardTotalScore(){
     return total;
 }
 
-float Board::getRedPercentage(){
+float Board::getRedPercentage()
+{
 
     float reds = 0;
     float total = 0;
@@ -278,60 +300,74 @@ float Board::getRedPercentage(){
         for (int j = 0; j < 5; j++)
         {
             bubble = this->board.at(i).at(j);
-            if(bubble != 0){
+            if (bubble != 0)
+            {
                 total += 1.0f;
             }
-            if(bubble == 1){
+            if (bubble == 1)
+            {
                 reds += 1.0f;
             }
         }
     }
 
-    if(!total)
+    if (!total)
         return 1;
 
-    return reds/total;
+    return reds / total;
 }
 
-int Board::costCalculation() {
+int Board::costCalculation()
+{
 
-    if(this->getRedPercentage() == 1){
+    if (this->getRedPercentage() == 1)
+    {
         this->cost = 0;
         return 0;
     }
 
     int redCount = 0;
 
-    for(auto & i : this->board){
-        for(size_t j = 0; j < i.size(); j++){
-            if(i.at(j) == 1){
+    for (auto &i : this->board)
+    {
+        for (size_t j = 0; j < i.size(); j++)
+        {
+            if (i.at(j) == 1)
+            {
                 redCount++;
             }
-            if(i.at(j) > 1){
+            if (i.at(j) > 1)
+            {
                 redCount = 0;
             }
-            if(redCount > 1){
+            if (redCount > 1)
+            {
                 this->cost = 0;
                 return 0;
             }
         }
     }
 
-    for(size_t i = 0; i < this->board.at(0).size(); i++){
-        for(auto & j : this->board){
-            if(j.at(i) == 1){
+    for (size_t i = 0; i < this->board.at(0).size(); i++)
+    {
+        for (auto &j : this->board)
+        {
+            if (j.at(i) == 1)
+            {
                 redCount++;
             }
-            if(j.at(i) > 1){
+            if (j.at(i) > 1)
+            {
                 redCount = 0;
             }
-            if(redCount > 1){
+            if (redCount > 1)
+            {
                 this->cost = 0;
                 return 0;
             }
         }
     }
 
-    this->cost = 0;
-    return 0;
+    this->cost = 1;
+    return 1;
 }
