@@ -97,21 +97,6 @@ vector<pair<int, int>> Tree::BFS(Board starting_board, int max_moves)
             moves.push_back(impossible);
             return moves;
         }
-
-        /*
-        cout << "Parent Board " << endl;
-        if(currentNode->parent != nullptr)
-            currentNode->parent->board.display();
-        cout << "Current Board " << endl;
-        currentBoard.display();
-
-
-       cout << "Plays" << endl;
-       for(auto & play : plays){
-           cout << play.first << " " << play.second << endl;
-       }
-       cout << "----------------------------------------------------" << endl;*/
-
         for (auto &play : plays)
         {
             Board newBoard = Board(currentBoard.simulatePlayerTouch(play.first, play.second));
@@ -309,6 +294,105 @@ vector<pair<int, int>> Tree::AStar(Board starting_board, int max_moves)
         pair<int, int> impossible(-1, -1);
         moves.push_back(impossible);
         return moves;
+    }
+
+    bool gotMoves = false;
+    while (!gotMoves)
+    {
+        if (solutionNode->parent != nullptr)
+        {
+            moves.push_back(solutionNode->touchedBubble);
+            solutionNode = solutionNode->parent;
+        }
+        else
+        {
+            gotMoves = true;
+        }
+    }
+
+    reverse(moves.begin(), moves.end());
+
+    return moves;
+}
+
+
+bool compareNodesUniform(Node *N1, Node *N2)
+{
+    if(N1->depth != N2->depth){
+        return N1->depth < N1->depth;
+    }else{
+        return N1->board.cost < N2->board.cost;
+    }
+}
+
+queue<Node *> sortQueueUniform(queue<Node *> q)
+{
+
+    vector<Node *> helperVector;
+    queue<Node *> sortedQueue;
+
+    while (!q.empty())
+    {
+        helperVector.push_back(q.front());
+        q.pop();
+    }
+
+    sort(helperVector.begin(), helperVector.end(), compareNodesUniform);
+
+    for (auto i : helperVector)
+    {
+        sortedQueue.push(i);
+    }
+
+    return sortedQueue;
+}
+
+vector<pair<int, int>> Tree::UniformCost(Board starting_board, int max_moves)
+{
+    vector<pair<int, int>> moves;
+    int max_depth = max_moves - 1;
+
+    queue<Node *> queue;
+    Node *start = new Node(nullptr, std::move(starting_board));
+    this->root = start;
+
+    Node *currentNode, *solutionNode = nullptr;
+
+    queue.push(start);
+
+    bool finished = false;
+
+    while (!queue.empty() && !finished)
+    {
+        queue = sortQueueUniform(queue);
+        currentNode = queue.front();
+        Board currentBoard = currentNode->board;
+        queue.pop();
+        vector<pair<int, int>> plays = currentBoard.possiblePlays();
+
+        if (currentNode->depth > max_depth)
+        {
+            pair<int, int> impossible(-1, -1);
+            moves.push_back(impossible);
+            return moves;
+        }
+        for (auto &play : plays)
+        {
+            Board newBoard = Board(currentBoard.simulatePlayerTouch(play.first, play.second));
+            Node *newNode = new Node(currentNode, newBoard);
+            currentNode->add_child(newNode);
+            newNode->touchedBubble = play;
+            if (newBoard.isSolution())
+            {
+                solutionNode = newNode;
+                finished = true;
+                break;
+            }
+            else
+            {
+                queue.push(newNode);
+            }
+        }
     }
 
     bool gotMoves = false;

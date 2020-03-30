@@ -42,6 +42,7 @@ class Tree{
         vector<pair<int, int>> greedy(Board starting_board, int max_moves);
         Node* greedy_helper(Node *current_node, int max_moves, int depth);
         vector<pair<int, int>> AStar(Board starting_board, int max_moves);
+        vector<pair<int, int>> UniformCost(Board starting_board, int max_moves);
 
 };
 

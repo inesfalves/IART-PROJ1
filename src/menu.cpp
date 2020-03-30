@@ -132,11 +132,10 @@ void handleUninformedAlgorithm(int algorithm, vector<vector<int>> playerChooseBo
         Tree *tree = new Tree();
         vector<pair<int, int>> moveList;
 
-        clock_t begin = clock();
+        auto t1 = std::chrono::high_resolution_clock::now();
         moveList = tree->BFS(chosenBoard, maxMoves);
-        clock_t end = clock();
-        double total_elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
-        cout << "Total elapsed time is: " << fixed << total_elapsed_secs <<  setprecision(3) << endl;
+        auto t2 = std::chrono::high_resolution_clock::now();
+        std::cout << "Time Elapsed: " << std::chrono::duration_cast<std::chrono::milliseconds>(t2-t1).count() << " milliseconds\n";
 
         printMove(chosenBoard, moveList);
         break;
@@ -146,18 +145,25 @@ void handleUninformedAlgorithm(int algorithm, vector<vector<int>> playerChooseBo
         Tree *tree = new Tree();
         vector<pair<int, int>> moveList;
 
-        clock_t begin = clock();
+        auto t1 = std::chrono::high_resolution_clock::now();
         moveList = tree->DFS(chosenBoard, maxMoves);
-        clock_t end = clock();
-        double total_elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
-        cout << "Total elapsed time is: " << fixed << total_elapsed_secs <<  setprecision(3) << endl;
+        auto t2 = std::chrono::high_resolution_clock::now();
+        std::cout << "Time Elapsed: " << std::chrono::duration_cast<std::chrono::milliseconds>(t2-t1).count() << " milliseconds\n";
 
         printMove(chosenBoard, moveList);
 
         break;
     }
     case 3:
-        cout << "Not implemented yet :(" << endl;
+        Tree *tree = new Tree();
+        vector<pair<int, int>> moveList;
+
+        auto t1 = std::chrono::high_resolution_clock::now();
+        moveList = tree->UniformCost(chosenBoard, maxMoves);
+        auto t2 = std::chrono::high_resolution_clock::now();
+        std::cout << "Time Elapsed: " << std::chrono::duration_cast<std::chrono::milliseconds>(t2-t1).count() << " milliseconds\n";
+
+        printMove(chosenBoard, moveList);
         break;
     }
 }
@@ -173,11 +179,10 @@ void handleInformedAlgorithm(int algorithm, vector<vector<int>> playerChooseBoar
         Tree *tree = new Tree();
         vector<pair<int, int>> moveList;
 
-        clock_t begin = clock();
+        auto t1 = std::chrono::high_resolution_clock::now();
         moveList = tree->greedy(chosenBoard, maxMoves);
-        clock_t end = clock();
-        double total_elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
-        cout << "Total elapsed time is: " << fixed << total_elapsed_secs <<  setprecision(3) << endl;
+        auto t2 = std::chrono::high_resolution_clock::now();
+        std::cout << "Time Elapsed: " << std::chrono::duration_cast<std::chrono::milliseconds>(t2-t1).count() << " milliseconds\n";
 
         printMove(chosenBoard, moveList);
         break;
@@ -186,11 +191,11 @@ void handleInformedAlgorithm(int algorithm, vector<vector<int>> playerChooseBoar
         Tree *tree = new Tree();
         vector<pair<int, int>> moveList;
 
-        clock_t begin = clock();
+        auto t1 = std::chrono::high_resolution_clock::now();
         moveList = tree->AStar(chosenBoard, maxMoves);
-        clock_t end = clock();
-        double total_elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
-        cout << "Total elapsed time is: " << fixed << total_elapsed_secs <<  setprecision(3) << endl;
+        auto t2 = std::chrono::high_resolution_clock::now();
+        std::cout << "Time Elapsed: " << std::chrono::duration_cast<std::chrono::milliseconds>(t2-t1).count() << " milliseconds\n";
+
         printMove(chosenBoard, moveList);
         break;
     }
