@@ -40,22 +40,23 @@ vector<pair<int, int>> Tree::DFS(Board starting_board, int max_moves)
 Node *Tree::DFS_helper(Node *current_node, int max_moves, int depth)
 {
     if (current_node->board.isSolution())
-    {
+    { 
         return current_node;
     }
     else if (depth >= max_moves)
     {
         return nullptr;
     }
-    vector<pair<int, int>> possible_plays = this->root->board.possiblePlays();
+    vector<pair<int, int>> possible_plays = current_node->board.possiblePlays();
+    
     for (size_t i = 0; i < possible_plays.size(); i++)
     {   
         pair<int,int> possible_play = possible_plays.at(i);
         current_node->board.simulatePlayerTouch(possible_play.first, possible_play.second);
         Node *new_node = new Node(current_node, current_node->board.getSimulatedBoard());
         new_node->touchedBubble = possible_play;
-        int new_depth = depth + 1;
-        Node *final_node = DFS_helper(new_node, max_moves, new_depth);
+        new_node->depth = depth + 1;
+        Node *final_node = DFS_helper(new_node, max_moves, new_node->depth);
         if (final_node != nullptr)
         {
             return final_node;
@@ -189,7 +190,7 @@ Node *Tree::greedy_helper(Node *current_node, int max_moves, int depth)
     {
         return nullptr;
     }
-    vector<pair<int, int>> possible_plays = this->root->board.possiblePlays();
+    vector<pair<int, int>> possible_plays = current_node->board.possiblePlays();
     vector<Node *> nodes;
     for (size_t i = 0; i < possible_plays.size(); i++)
     {   

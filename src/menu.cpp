@@ -135,7 +135,7 @@ void handleInformedAlgorithm(int algorithm, vector<vector<int>> playerChooseBoar
         Tree *tree = new Tree();
         vector<pair<int, int>> moveList;
         //definir o numero de toques para cada board
-        moveList = tree->greedy(chosenBoard, 2);
+        moveList = tree->greedy(chosenBoard, 3);
         printMove(chosenBoard, moveList);
         break;
     }
