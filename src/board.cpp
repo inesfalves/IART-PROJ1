@@ -400,17 +400,18 @@ int Board::costCalculation()
 
                 }else{
                     if(firstElementFound){
-                        foundLine = true;
                         indexes.push_back(j);
                     }else{
                         firstElementFound = true;
+                        indexes.clear();
                         indexes.push_back(j);
                     }
                 }
 
             }
-
-
+        }
+        if(indexes.size() > 1){
+            foundLine = true;
         }
         firstElementFound = false;
     }
