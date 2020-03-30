@@ -319,7 +319,7 @@ vector<pair<int, int>> Tree::AStar(Board starting_board, int max_moves)
 bool compareNodesUniform(Node *N1, Node *N2)
 {
     if(N1->depth != N2->depth){
-        return N1->depth < N1->depth;
+        return N1->depth < N2->depth;
     }else{
         return N1->board.cost < N2->board.cost;
     }
