@@ -9,7 +9,7 @@
 #include <fstream>
 #include <sstream>
 #include <bits/stdc++.h>
-#include <time.h> 
+#include <ctime>
 
 using namespace std;
 

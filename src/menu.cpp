@@ -36,6 +36,7 @@ void start()
 {
     int gameOption, option, algorithm, maxMoves;
     vector<vector<int>> playerChooseBoard;
+    srand(time(NULL));
 
     cout << "Welcome to Bubble Blast! Do you want to play or check a search strategy?" << endl;
     cout << "1. I want to play the game!" << endl;
@@ -134,8 +135,8 @@ void handleUninformedAlgorithm(int algorithm, vector<vector<int>> playerChooseBo
         clock_t begin = clock();
         moveList = tree->BFS(chosenBoard, maxMoves);
         clock_t end = clock();
-        double total_elapsed_secs = 1000 * (end - begin) / CLOCKS_PER_SEC;
-        cout << "Total elapsed time is: " << fixed << total_elapsed_secs <<  setprecision(5) << endl;
+        double total_elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
+        cout << "Total elapsed time is: " << fixed << total_elapsed_secs <<  setprecision(3) << endl;
 
         printMove(chosenBoard, moveList);
         break;
@@ -148,8 +149,8 @@ void handleUninformedAlgorithm(int algorithm, vector<vector<int>> playerChooseBo
         clock_t begin = clock();
         moveList = tree->DFS(chosenBoard, maxMoves);
         clock_t end = clock();
-        double total_elapsed_secs = 1000 * (end - begin) / CLOCKS_PER_SEC;
-        cout << "Total elapsed time is: " << fixed << total_elapsed_secs <<  setprecision(5) << endl;
+        double total_elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
+        cout << "Total elapsed time is: " << fixed << total_elapsed_secs <<  setprecision(3) << endl;
 
         printMove(chosenBoard, moveList);
 
@@ -175,8 +176,8 @@ void handleInformedAlgorithm(int algorithm, vector<vector<int>> playerChooseBoar
         clock_t begin = clock();
         moveList = tree->greedy(chosenBoard, maxMoves);
         clock_t end = clock();
-        double total_elapsed_secs = 1000 * (end - begin) / CLOCKS_PER_SEC;
-        cout << "Total elapsed time is: " << fixed << total_elapsed_secs <<  setprecision(5) << endl;
+        double total_elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
+        cout << "Total elapsed time is: " << fixed << total_elapsed_secs <<  setprecision(3) << endl;
 
         printMove(chosenBoard, moveList);
         break;
@@ -188,8 +189,8 @@ void handleInformedAlgorithm(int algorithm, vector<vector<int>> playerChooseBoar
         clock_t begin = clock();
         moveList = tree->AStar(chosenBoard, maxMoves);
         clock_t end = clock();
-        double total_elapsed_secs = 1000 * (end - begin) / CLOCKS_PER_SEC;
-        cout << "Total elapsed time is: " << fixed << total_elapsed_secs <<  setprecision(5) << endl;
+        double total_elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
+        cout << "Total elapsed time is: " << fixed << total_elapsed_secs <<  setprecision(3) << endl;
         printMove(chosenBoard, moveList);
         break;
     }
