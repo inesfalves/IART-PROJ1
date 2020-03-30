@@ -49,10 +49,10 @@ void start()
     }
 
     cout << "-----------------------------------------------" << endl;
-    cout << "Choose a level from 1 to 20!" << endl;
+    cout << "Choose a level from 1 to 35!" << endl;
     cout << "Level:";
     inputHandler(option);
-    while ((option < 1 && option > 20) && option != 33)
+    while (option < 1 && option > 35)
     {
         cout << "Invalid input. Please try again: " << endl;
         inputHandler(gameOption);
