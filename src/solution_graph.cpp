@@ -4,11 +4,12 @@
 #include <utility>
 
 float Node::getGreedyValue(){
-    return this->board.getRedPercentage() / this->board.getBoardTotalScore();
+    if(this->board.getRedPercentage() == 0) return 4000;
+    else return this->board.getBoardTotalScore() / this->board.getRedPercentage();
 }
 
 bool compareNodesGreedy(Node *N1, Node *N2){
-    return N1->getGreedyValue() > N2->getGreedyValue();
+    return N1->getGreedyValue() < N2->getGreedyValue();
 }
 
 vector<pair<int, int>> Tree::DFS(Board starting_board, int max_moves)
