@@ -4,7 +4,8 @@
 #include <utility>
 
 float Node::getGreedyValue(){
-    if(this->board.getRedPercentage() == 0) return 4000;
+    if(this->board.getBoardTotalScore() == 0) return 0;
+    else if(this->board.getRedPercentage() == 0) return 4000;
     else return this->board.getBoardTotalScore() / this->board.getRedPercentage();
 }
 
