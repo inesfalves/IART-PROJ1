@@ -88,7 +88,7 @@ void start()
         cout << "2. A* search" << endl;
         cout << "Option:";
         inputHandler(algorithm);
-        handleInformedAlgorithm(algorithm, playerChooseBoard);
+        handleInformedAlgorithm(algorithm, playerChooseBoard, maxMoves);
         break;
     }
 }
@@ -124,7 +124,7 @@ void handleUninformedAlgorithm(int algorithm, vector<vector<int>> playerChooseBo
     }
 }
 
-void handleInformedAlgorithm(int algorithm, vector<vector<int>> playerChooseBoard)
+void handleInformedAlgorithm(int algorithm, vector<vector<int>> playerChooseBoard, int maxMoves)
 {
     Board chosenBoard = Board(playerChooseBoard);
 
@@ -135,7 +135,7 @@ void handleInformedAlgorithm(int algorithm, vector<vector<int>> playerChooseBoar
         Tree *tree = new Tree();
         vector<pair<int, int>> moveList;
         //definir o numero de toques para cada board
-        moveList = tree->greedy(chosenBoard, 2);
+        moveList = tree->greedy(chosenBoard, maxMoves);
         printMove(chosenBoard, moveList);
         break;
     }
@@ -143,7 +143,7 @@ void handleInformedAlgorithm(int algorithm, vector<vector<int>> playerChooseBoar
         Tree *tree = new Tree();
         vector<pair<int, int>> moveList;
         //definir o numero de toques para cada board
-        moveList = tree->AStar(chosenBoard, 3);
+        moveList = tree->AStar(chosenBoard, maxMoves);
         printMove(chosenBoard, moveList);
         break;
     }
