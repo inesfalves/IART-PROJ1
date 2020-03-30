@@ -52,7 +52,7 @@ void start()
     cout << "Choose a level from 1 to 20!" << endl;
     cout << "Level:";
     inputHandler(option);
-    while ((option < 1 && option > 20) || option != 33)
+    while ((option < 1 && option > 20) && option != 33)
     {
         cout << "Invalid input. Please try again: " << endl;
         inputHandler(gameOption);
@@ -130,7 +130,12 @@ void handleUninformedAlgorithm(int algorithm, vector<vector<int>> playerChooseBo
     {
         Tree *tree = new Tree();
         vector<pair<int, int>> moveList;
+
+        clock_t begin = clock();
         moveList = tree->BFS(chosenBoard, maxMoves);
+        clock_t end = clock();
+        double total_elapsed_secs = 1000 * (end - begin) / CLOCKS_PER_SEC;
+        cout << "Total elapsed time is: " << fixed << total_elapsed_secs <<  setprecision(5) << endl;
 
         printMove(chosenBoard, moveList);
         break;
@@ -139,7 +144,12 @@ void handleUninformedAlgorithm(int algorithm, vector<vector<int>> playerChooseBo
     {
         Tree *tree = new Tree();
         vector<pair<int, int>> moveList;
+
+        clock_t begin = clock();
         moveList = tree->DFS(chosenBoard, maxMoves);
+        clock_t end = clock();
+        double total_elapsed_secs = 1000 * (end - begin) / CLOCKS_PER_SEC;
+        cout << "Total elapsed time is: " << fixed << total_elapsed_secs <<  setprecision(5) << endl;
 
         printMove(chosenBoard, moveList);
 
@@ -161,14 +171,25 @@ void handleInformedAlgorithm(int algorithm, vector<vector<int>> playerChooseBoar
     {
         Tree *tree = new Tree();
         vector<pair<int, int>> moveList;
+
+        clock_t begin = clock();
         moveList = tree->greedy(chosenBoard, maxMoves);
+        clock_t end = clock();
+        double total_elapsed_secs = 1000 * (end - begin) / CLOCKS_PER_SEC;
+        cout << "Total elapsed time is: " << fixed << total_elapsed_secs <<  setprecision(5) << endl;
+
         printMove(chosenBoard, moveList);
         break;
     }
     case 2:
         Tree *tree = new Tree();
         vector<pair<int, int>> moveList;
+
+        clock_t begin = clock();
         moveList = tree->AStar(chosenBoard, maxMoves);
+        clock_t end = clock();
+        double total_elapsed_secs = 1000 * (end - begin) / CLOCKS_PER_SEC;
+        cout << "Total elapsed time is: " << fixed << total_elapsed_secs <<  setprecision(5) << endl;
         printMove(chosenBoard, moveList);
         break;
     }
