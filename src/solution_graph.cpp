@@ -233,7 +233,7 @@ queue<Node *> sortQueue(queue<Node *> q){
 
     cout << "Pre" << endl;
     for(auto i : helperVector){
-        float val = (float)i->board.costCalculation() + (float)i->depth+ i->getGreedyValue();
+        float val = i->getGreedyValue()/4000;
         cout << val << " ";
         sortedQueue.push(i);
     }
