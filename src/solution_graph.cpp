@@ -241,7 +241,6 @@ vector<pair<int, int>> Tree::AStar(Board starting_board, int max_moves)
 
         if (currentNode->depth > max_depth)
         {
-            //cout << queue.size() << " ";
             continue;
         }
 
