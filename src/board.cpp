@@ -392,7 +392,7 @@ int Board::costCalculation()
                             return 1;
                         }
                     }else{
-                        if(colIndex != j){
+                        if(colIndex != (int)j){
                             this->cost = 1;
                             return 1;
                         }
