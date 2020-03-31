@@ -209,44 +209,20 @@ Node *Tree::greedy_helper(Node *current_node, int max_moves, int depth)
     return nullptr;
 }
 
-bool compareNodesAStar(Node *N1, Node *N2)
+struct AStarCompare
 {
-
-    return (N1->getGreedyValue() + N1->board.cost + N1->depth) < (N2->getGreedyValue() + N2->board.cost + N2->depth);
-}
-
-queue<Node *> sortQueue(queue<Node *> q)
-{
-
-    vector<Node *> helperVector;
-    queue<Node *> sortedQueue;
-
-    while (!q.empty())
+    bool operator()(Node *N1, Node *N2)
     {
-        helperVector.push_back(q.front());
-        q.pop();
+        return (N1->getGreedyValue() + (float)N1->board.cost +(float) N1->depth) >= (N2->getGreedyValue() +(float) N2->board.cost +(float) N2->depth);
     }
-
-    sort(helperVector.begin(), helperVector.end(), compareNodesAStar);
-
-    //cout << "Pre" << endl;
-    for (auto i : helperVector)
-    {
-        //float val = (float)i->board.cost + (float)i->depth + i->getGreedyValue();
-        //cout << val << " (" << i->board.cost << " + " << i->depth << " + " << i->getGreedyValue() << ");  ";
-        sortedQueue.push(i);
-    }
-    //cout << "Pos" << endl;
-
-    return sortedQueue;
-}
+};
 
 vector<pair<int, int>> Tree::AStar(Board starting_board, int max_moves)
 {
     vector<pair<int, int>> moves;
     int max_depth = max_moves - 1;
 
-    queue<Node *> queue;
+    priority_queue<Node *, vector<Node*>, AStarCompare> queue;
     Node *start = new Node(nullptr, std::move(starting_board));
     this->root = start;
 
@@ -258,8 +234,7 @@ vector<pair<int, int>> Tree::AStar(Board starting_board, int max_moves)
 
     while (!queue.empty() && !finished)
     {
-        queue = sortQueue(queue);
-        currentNode = queue.front();
+        currentNode = queue.top();
         Board currentBoard = currentNode->board;
         queue.pop();
         vector<pair<int, int>> plays = currentBoard.possiblePlays();
@@ -316,43 +291,24 @@ vector<pair<int, int>> Tree::AStar(Board starting_board, int max_moves)
 }
 
 
-bool compareNodesUniform(Node *N1, Node *N2)
+struct UniformCostCompare
 {
-    if(N1->depth != N2->depth){
-        return N1->depth < N2->depth;
-    }else{
-        return N1->board.cost < N2->board.cost;
-    }
-}
-
-queue<Node *> sortQueueUniform(queue<Node *> q)
-{
-
-    vector<Node *> helperVector;
-    queue<Node *> sortedQueue;
-
-    while (!q.empty())
+    bool operator()(const Node* N1, const Node* N2)
     {
-        helperVector.push_back(q.front());
-        q.pop();
+        if(N1->depth != N2->depth){
+            return N1->depth >= N2->depth;
+        }else{
+            return N1->board.cost >= N2->board.cost;
+        }
     }
-
-    sort(helperVector.begin(), helperVector.end(), compareNodesUniform);
-
-    for (auto i : helperVector)
-    {
-        sortedQueue.push(i);
-    }
-
-    return sortedQueue;
-}
+};
 
 vector<pair<int, int>> Tree::UniformCost(Board starting_board, int max_moves)
 {
     vector<pair<int, int>> moves;
     int max_depth = max_moves - 1;
 
-    queue<Node *> queue;
+    priority_queue<Node *, vector<Node*>, UniformCostCompare> queue;
     Node *start = new Node(nullptr, std::move(starting_board));
     this->root = start;
 
@@ -364,17 +320,14 @@ vector<pair<int, int>> Tree::UniformCost(Board starting_board, int max_moves)
 
     while (!queue.empty() && !finished)
     {
-        queue = sortQueueUniform(queue);
-        currentNode = queue.front();
+        currentNode = queue.top();
         Board currentBoard = currentNode->board;
         queue.pop();
         vector<pair<int, int>> plays = currentBoard.possiblePlays();
 
         if (currentNode->depth > max_depth)
         {
-            pair<int, int> impossible(-1, -1);
-            moves.push_back(impossible);
-            return moves;
+            break;
         }
         for (auto &play : plays)
         {
@@ -393,6 +346,13 @@ vector<pair<int, int>> Tree::UniformCost(Board starting_board, int max_moves)
                 queue.push(newNode);
             }
         }
+    }
+
+    if (solutionNode == nullptr)
+    {
+        pair<int, int> impossible(-1, -1);
+        moves.push_back(impossible);
+        return moves;
     }
 
     bool gotMoves = false;
